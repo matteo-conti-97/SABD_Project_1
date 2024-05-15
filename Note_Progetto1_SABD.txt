@@ -1,0 +1,49 @@
+Scadenza 10 giugno
+Presentazione 13 giugno, presentazione di 15 minuti, per mostrare le query usare dei DAG (non di spark) invece del codice
+
+
+Dataset:
+-Telemetria monitoraggio hard disk di un cloud provider 
+-Formato CSV, filtrato contiene 23 giorni di monitoraggio 3 milioni di eventi, 600MByte
+-SMART standard data for hard disk monitoring + Custom attributes
+-Dati rilevanti marcati nelle slide
+	-Data -> Datetime di campionamento della misura
+	-Identificatore del disco (serial number) -> Stringa
+	-Modello del disco -> Stringa
+	-Flag che ci indica se si è verificato guasto o meno -> Booleano
+	-Vault id, id di un gruppo di dischi -> Stringa
+	-Tempo di accensione del disco in ore -> Int
+
+Query vanno raccolte le performance del tempo di processamento (è possibile separare le performance di preprocessamento e query effettiva), il risultato delle query va messo su CSV
+va fatto un piccolo cluster con docker-compose (in caso va specificata la macchina), oppure servizio cloud con AWS EMR
+	-Query 1 ->  Obbligatoria per 1 persona
+	Per ogni giorno, per ogni vault, calcolare il numero totale di fallimenti e determinare la lista di vault che hanno subito esattamente 4, 3 e 2 fallimenti.
+	Voglio che la risposta sia aggregata per giorno e per vault, poi vanno selezionato solo i vault che hanno sperimentato 4, 3 o 2 fallimenti (e.g data, vault_id, failure_count)
+	
+	-Query 2 ->  Obbligatoria per 1 persona
+		Parte1 -> Calcolare la classifica dei 10 modelli di hard disk che hanno subito il maggior numero di fallimenti. La classifica deve riportare il modello di hard disk 
+		ed il numero totale di fallimenti subiti dagli hard disk di quello specifico modello -> Identificare i 10 modelli di hard disk più difettosi (e.g disk_model, failure_count)
+		
+		Parte2 -> Calcolare una seconda classifica dei 10 vault che hanno registrato il maggior numero di fallimenti. Per ogni vault, riportare il numero di fallimenti e la lista (senza ripetizioni)
+		di modelli di hard disk soggetti ad almeno un fallimento -> Identificare i 10 gruppi più difettosi ed i modelli di disco con almeno un fallimento (e.g vauld_id, failure_count, list_of_models)
+		
+	-Query 3 -> Obbligatorio per 2/3 persone
+		Calcolare minimo, 25-eismo, 50-esimo (mediana), 75-esimo percentile e massimo delle ore di funzionamento degli hard disk che hanno subito fallimenti e degli hard disk 
+		che non hanno subito fallimenti. Notare che il campo tempo di accensione è cumulativo, quindi le statistiche della query devono far riferimento all'ultimo giorno utile
+		di monitoraggio dei dati (quindi quello con data più recente, usando il serial number). Nell'utput indicare anche il numero totale di eventi utilizzati per il calcolo delle statistiche
+		
+Opzionalmente per gruppi di 3 persone usare Hive o Spark SQL per tutte le query e confrontare le performance rispetto alle API di RDD e DataFrame
+Opzionalmente per tutti usare un framework per la visualizzazione dei risultati (e.g Grafana)
+
+-Come fare data ingestion su HDFS ?
+	-Gruppo di 1 persona caricare semplicemente il CSV su HDFS
+	-Gruppo di 2/3 usare tipo NiFi, Flume, Kafka etc per poi sparare su HDFS
+	
+-Che tipo di formato dati usare?
+	-A discrezione nostra se mantenere il CSV o usare Parquet, ORC, Avro etc
+
+-Dove esportare il risultato delle query?
+	-Gruppo da 1 semplicemente su CSV su HDFS
+	-Gruppo da 2/3 su un altro sistema tipo HBase, Redis, Kafka etc
+
+
