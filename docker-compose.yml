@@ -1,10 +1,28 @@
 services:
   mongo_db:
     image: mongo
-    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+    networks:
+      - elt_cluster
+  
+  nifi:
+    container_name: nifi
+    image: apache/nifi:latest
+    environment:
+      - SINGLE_USER_CREDENTIALS_USERNAME=admin
+      - SINGLE_USER_CREDENTIALS_PASSWORD=123456789101112
+    volumes:
+      - nifi-data:/opt/nifi/nifi-current/Data
+    ports:
+      - 8443:8443
+    networks:
+      - elt_cluster
+    depends_on:
+      - namenode
       
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
@@ -46,8 +64,9 @@ services:
 
 volumes:
   namenode-data:
-  datanode1-data:
-  datanode2-data:
+  datanode1-data: 
+  datanode2-data: 
+  nifi-data:
 
 networks:
   elt_cluster:
