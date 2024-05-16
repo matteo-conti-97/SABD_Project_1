@@ -1,12 +1,68 @@
 services:
-
   mongo_db:
     image: mongo
-    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+    networks:
+      - elt_cluster
+  
+  nifi:
+    container_name: nifi
+    image: apache/nifi:latest
+    environment:
+      - SINGLE_USER_CREDENTIALS_USERNAME=admin
+      - SINGLE_USER_CREDENTIALS_PASSWORD=123456789101112
+    volumes:
+      - nifi-data:/opt/nifi/nifi-current/Data
+    ports:
+      - 8443:8443
+    networks:
+      - elt_cluster
+    depends_on:
+      - namenode
+      
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    environment:
+      - CLUSTER_NAME=elt_cluster
+    ports:
+      - "9870:9870"
+      - "9000:9000"
+      - "50070:50070"
+    volumes:
+      - namenode-data:/hadoop/dfs/name
+    networks:
+      - elt_cluster
 
+  datanode1:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode1
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+      - CORE_CONF_hadoop_http_staticuser_user=root
+      - HDFS_CONF_dfs_replication=1
+    volumes:
+      - datanode1-data:/hadoop/dfs/data
+    networks:
+      - elt_cluster
+
+  datanode2:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode2
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+      - CORE_CONF_hadoop_http_staticuser_user=root
+      - HDFS_CONF_dfs_replication=1
+    volumes:
+      - datanode2-data:/hadoop/dfs/data
+    networks:
+      - elt_cluster
+
+  ###SPARK###
   spark-master:
     container_name: spark_master
     image: cluster-apache-spark:3.0.2
@@ -18,17 +74,15 @@ services:
     environment:
       - SPARK_LOCAL_IP=spark-master
       - SPARK_WORKLOAD=master
-    #networks:
-    #  - hadoop_network
+    networks:
+      - elt_cluster
+      - spark_network
     volumes:
-       - ./Spark_scripts:/opt/spark-apps
+        - ./Spark_scripts:/opt/spark-apps
 
   spark-worker-a:
     container_name: spark_worker
     image: cluster-apache-spark:3.0.2
-  #  ports:
-  #    - "9091:8080"
-  #    - "7000:7000"
     depends_on:
       - spark-master
     environment:
@@ -39,5 +93,19 @@ services:
       - SPARK_EXECUTOR_MEMORY=1G
       - SPARK_WORKLOAD=worker
       - SPARK_LOCAL_IP=spark-worker-a
-    #networks:
-    #  - hadoop_network
+    networks:
+      - spark_network
+
+
+volumes:
+  namenode-data:
+  datanode1-data: 
+  datanode2-data: 
+  nifi-data:
+
+networks:
+  elt_cluster:
+    driver: bridge
+  spark_network:
+    driver: bridge
+  
