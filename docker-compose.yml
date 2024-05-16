@@ -1,7 +1,43 @@
 services:
-    mongo_db:
-      image: mongo
-      restart: always
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo_db:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  spark-master:
+    container_name: spark_master
+    image: cluster-apache-spark:3.0.2
+    ports:
+      - "9090:8080"
+      - "7077:7077"
+      - "4040:4040"
+      - "18080:18080"
+    environment:
+      - SPARK_LOCAL_IP=spark-master
+      - SPARK_WORKLOAD=master
+    #networks:
+    #  - hadoop_network
+    volumes:
+       - ./Spark_scripts:/opt/spark-apps
+
+  spark-worker-a:
+    container_name: spark_worker
+    image: cluster-apache-spark:3.0.2
+  #  ports:
+  #    - "9091:8080"
+  #    - "7000:7000"
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_DRIVER_MEMORY=1G
+      - SPARK_EXECUTOR_MEMORY=1G
+      - SPARK_WORKLOAD=worker
+      - SPARK_LOCAL_IP=spark-worker-a
+    #networks:
+    #  - hadoop_network
