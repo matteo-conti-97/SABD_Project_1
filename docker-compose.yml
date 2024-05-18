@@ -11,21 +11,23 @@ services:
   
   nifi:
     container_name: nifi
-    image: apache/nifi:latest
+    build: ./Dockerfiles/nifi
     environment:
       - SINGLE_USER_CREDENTIALS_USERNAME=admin
       - SINGLE_USER_CREDENTIALS_PASSWORD=123456789101112
+      - NIFI_JVM_HEAP_MAX=2g
     volumes:
       - nifi-data:/opt/nifi/nifi-current/Data
     ports:
       - 8443:8443
+      - 5200:5200
     networks:
       - elt_cluster
     depends_on:
       - namenode
       
   namenode:
-    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    build: ./Dockerfiles/hdfs/namenode
     container_name: namenode
     environment:
       - CLUSTER_NAME=elt_cluster
@@ -44,7 +46,9 @@ services:
     environment:
       - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
       - CORE_CONF_hadoop_http_staticuser_user=root
-      - HDFS_CONF_dfs_replication=1
+      - HDFS_CONF_dfs_replication=2
+    depends_on:
+      - namenode
     volumes:
       - datanode1-data:/hadoop/dfs/data
     networks:
@@ -56,13 +60,15 @@ services:
     environment:
       - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
       - CORE_CONF_hadoop_http_staticuser_user=root
-      - HDFS_CONF_dfs_replication=1
+      - HDFS_CONF_dfs_replication=2
+    depends_on:
+      - namenode
     volumes:
       - datanode2-data:/hadoop/dfs/data
     networks:
       - elt_cluster
 
-  ###SPARK###
+  ##SPARK###
   spark-master:
     container_name: spark_master
     image: cluster-apache-spark:3.0.2
