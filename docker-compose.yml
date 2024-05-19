@@ -35,6 +35,11 @@ services:
       - "9870:9870"
       - "9000:9000"
       - "50070:50070"
+      - "9866" 
+      - "9867"
+      - "9864" 
+      - "9868"
+      - "9820" 
     volumes:
       - namenode-data:/hadoop/dfs/name
     networks:
