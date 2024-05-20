@@ -5,7 +5,8 @@
 1) Run command "docker compose up" and wait startup of all containers
 2) In your browser access to Nifi Web UI at https://localhost:8443/nifi and perform login with the credentials specified in docker-compose.yml
 3) Upload Nifi template file available at $PROJECT_DIR/Dockerfiles/nifi/templates/progetto_1.4.xml or Nifi JSON flow file available at $PROJECT_DIR/Dockerfiles/nifi/templates/progetto_1.4.json
-4) Start all Nifi processors if you want to ingest data in HDFS with both csv and parquet format or only the processors in one of the two branches if you want only one format 
+4) Start all Nifi processors if you want to ingest data in HDFS with both csv and parquet format or only the processors in one of the two branches if you want only one format
+5) To connect HDFS and Spark use port 8020
 
 
 ## How to ingest data
