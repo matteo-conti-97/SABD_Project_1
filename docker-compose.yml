@@ -35,11 +35,7 @@ services:
       - "9870:9870"
       - "9000:9000"
       - "50070:50070"
-      - "9866" 
-      - "9867"
-      - "9864" 
-      - "9868"
-      - "9820" 
+      - "8020:8020"
     volumes:
       - namenode-data:/hadoop/dfs/name
     networks:
@@ -74,38 +70,38 @@ services:
       - elt_cluster
 
   ##SPARK###
-  spark-master:
-    container_name: spark_master
-    image: cluster-apache-spark:3.0.2
-    ports:
-      - "9090:8080"
-      - "7077:7077"
-      - "4040:4040"
-      - "18080:18080"
-    environment:
-      - SPARK_LOCAL_IP=spark-master
-      - SPARK_WORKLOAD=master
-    networks:
-      - elt_cluster
-      - spark_network
-    volumes:
-        - ./Spark_scripts:/opt/spark-apps
+  # spark-master:
+  #   container_name: spark_master
+  #   image: cluster-apache-spark:3.0.2
+  #   ports:
+  #     - "9090:8080"
+  #     - "7077:7077"
+  #     - "4040:4040"
+  #     - "18080:18080"
+  #   environment:
+  #     - SPARK_LOCAL_IP=spark-master
+  #     - SPARK_WORKLOAD=master
+  #   networks:
+  #     - elt_cluster
+  #     - spark_network
+  #   volumes:
+  #       - ./Spark_scripts:/opt/spark-apps
 
-  spark-worker-a:
-    container_name: spark_worker
-    image: cluster-apache-spark:3.0.2
-    depends_on:
-      - spark-master
-    environment:
-      - SPARK_MASTER=spark://spark-master:7077
-      - SPARK_WORKER_CORES=1
-      - SPARK_WORKER_MEMORY=1G
-      - SPARK_DRIVER_MEMORY=1G
-      - SPARK_EXECUTOR_MEMORY=1G
-      - SPARK_WORKLOAD=worker
-      - SPARK_LOCAL_IP=spark-worker-a
-    networks:
-      - spark_network
+  # spark-worker-a:
+  #   container_name: spark_worker
+  #   image: cluster-apache-spark:3.0.2
+  #   depends_on:
+  #     - spark-master
+  #   environment:
+  #     - SPARK_MASTER=spark://spark-master:7077
+  #     - SPARK_WORKER_CORES=1
+  #     - SPARK_WORKER_MEMORY=1G
+  #     - SPARK_DRIVER_MEMORY=1G
+  #     - SPARK_EXECUTOR_MEMORY=1G
+  #     - SPARK_WORKLOAD=worker
+  #     - SPARK_LOCAL_IP=spark-worker-a
+  #   networks:
+  #     - spark_network
 
 
 volumes:
