@@ -2,7 +2,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 
 spark = SparkSession.builder \
-  .appName("HelloWorld") \
+  .appName("Query1") \
   .config("spark.mongodb.input.uri", "mongodb://spark_user:spark_password@mongo:27017/results.query1") \
   .config("spark.mongodb.output.uri", "mongodb://spark_user:spark_password@mongo:27017/results.query1") \
   .getOrCreate()
