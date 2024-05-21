@@ -1,4 +1,4 @@
 FROM bitnami/spark:3.5.1
 
-WORKDIR /opt/bitnami/spark
+WORKDIR /opt/bitnami/spark/scripts
 COPY . .

@@ -74,6 +74,8 @@ services:
     build: ./Spark_scripts
     container_name: spark-master
     hostname: spark-master
+    volumes:
+      - ./Spark_scripts:/opt/bitnami/spark/scripts
     environment:
       - SPARK_MODE=master
     ports:
