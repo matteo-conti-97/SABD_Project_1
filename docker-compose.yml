@@ -98,16 +98,6 @@ services:
     networks:
       - spark_network
 
-  spark-driver:
-    build: ./Spark_scripts
-    container_name: spark-driver
-    depends_on:
-      - spark-master
-      - spark-worker
-    #entrypoint: ["tail", "-f", "/dev/null"]
-    networks:
-      - spark_network
-
 volumes:
   namenode-data:
   datanode1-data: 
