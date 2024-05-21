@@ -70,7 +70,8 @@ services:
       - elt_cluster
 
   spark-master:
-    image: bitnami/spark:3.5.1
+    #image: bitnami/spark:3.5.1
+    build: ./Spark_scripts
     container_name: spark-master
     hostname: spark-master
     environment:
@@ -94,6 +95,16 @@ services:
       - spark-master
     ports:
       - "8081-8101:8081"
+    networks:
+      - spark_network
+
+  spark-driver:
+    build: ./Spark_scripts
+    container_name: spark-driver
+    depends_on:
+      - spark-master
+      - spark-worker
+    #entrypoint: ["tail", "-f", "/dev/null"]
     networks:
       - spark_network
 
