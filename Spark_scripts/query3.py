@@ -46,4 +46,13 @@ df_final.write.format("com.mongodb.spark.sql.DefaultSource") \
      .mode("overwrite") \
      .save()
 
+time = end - start
+
+perf = spark.createDataFrame([(end, "Query3", "Parquet", time)], ["Timestamp", "Query", "File format" "Execution time (s)"])
+
+perf.write.format("com.mongodb.spark.sql.DefaultSource") \
+  .mode("append") \
+  .option("collection", "performance") \
+  .save()
+
 spark.stop()
