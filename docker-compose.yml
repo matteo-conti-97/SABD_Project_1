@@ -119,12 +119,24 @@ services:
       - spark_network
       - elt_cluster
 
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+     - '3000:3000'
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - elt_cluster
+
 volumes:
   namenode-data:
   datanode1-data: 
   datanode2-data: 
   nifi-data:
   mongo:
+  grafana-storage: {}
 
 networks:
   elt_cluster:
