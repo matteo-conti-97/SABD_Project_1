@@ -4,8 +4,8 @@ import time
 
 spark = SparkSession.builder \
   .appName("Query2") \
-  .config("spark.mongodb.input.uri", "mongodb://spark_user:spark_password@mongo:27017/results.query2") \
-  .config("spark.mongodb.output.uri", "mongodb://spark_user:spark_password@mongo:27017/results.query2") \
+  .config("spark.mongodb.input.uri", "mongodb://spark_user:spark_password@mongo:27017/results.query2.1") \
+  .config("spark.mongodb.output.uri", "mongodb://spark_user:spark_password@mongo:27017/results.query2.1") \
   .getOrCreate()
 
 #prima parte
@@ -31,6 +31,14 @@ df4.show()
 end = time.time()
 print("Execution time: " + str(end - start))
 
+df1.write.format("com.mongodb.spark.sql.DefaultSource") \
+  .mode("overwrite") \
+  .save()
+
+df4.write.format("com.mongodb.spark.sql.DefaultSource") \
+  .mode("overwrite") \
+  .option("collection", "query2.2") \
+  .save()
 # df5.write.format("com.mongodb.spark.sql.DefaultSource") \
 #   .mode("overwrite") \
 #   .save()
