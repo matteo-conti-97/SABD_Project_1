@@ -4,15 +4,15 @@ import time
 
 spark = SparkSession.builder \
   .appName("Query2") \
-  .config("spark.mongodb.input.uri", "mongodb://spark_user:spark_password@mongo:27017/results.query2.1") \
-  .config("spark.mongodb.output.uri", "mongodb://spark_user:spark_password@mongo:27017/results.query2.1") \
+  .config("spark.mongodb.input.uri", "mongodb://spark_user:spark_password@mongo:27017/results") \
+  .config("spark.mongodb.output.uri", "mongodb://spark_user:spark_password@mongo:27017/results") \
   .getOrCreate()
 
 #prima parte
 start = time.time()
 
 df = spark.read.parquet("hdfs://namenode:8020/disk_data_filtered.parquet")
-df = df.drop("serial_number", "s9_power_on_hours","date")
+df = df.drop("serial_number", "s9_power_on_hours", "date")
 df.cache()
 df1 = df.groupBy("model").agg(sum("failure").alias("failures"))
 df1 = df1.orderBy("failures", ascending=False).limit(10)
@@ -33,6 +33,7 @@ print("Execution time: " + str(end - start))
 
 df1.write.format("com.mongodb.spark.sql.DefaultSource") \
   .mode("overwrite") \
+  .option("collection", "query2.1") \
   .save()
 
 df4.write.format("com.mongodb.spark.sql.DefaultSource") \
