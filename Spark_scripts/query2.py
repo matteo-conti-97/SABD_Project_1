@@ -2,6 +2,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from time import time
 from pyspark.sql.types import StructType, StructField, IntegerType, FloatType, DateType
+from datetime import datetime
 
 spark = SparkSession.builder \
   .appName("Query2") \
@@ -12,17 +13,17 @@ spark = SparkSession.builder \
 #PARQUET
 start = time()
 
-df = spark.read.parquet("hdfs://namenode:8020/disk_data_filtered.parquet")
+df = spark.read.parquet("hdfs://namenode:8020/disk_data_filtered.parquet") \
+  .drop("serial_number", "s9_power_on_hours", "date")
+df.cache()
 
 #prima parte
-df = df.drop("serial_number", "s9_power_on_hours", "date")
-df.cache()
-df1 = df.groupBy("model").agg(sum("failure").alias("failures"))
-df1 = df1.orderBy("failures", ascending=False).limit(10)
+df1 = df.groupBy("model").agg(sum("failure").alias("failures"))\
+  .orderBy("failures", ascending=False).limit(10)
 
 #seconda parte
 df2 = df.groupBy("vault_id").agg(sum("failure").alias("failures")) #AGG a quanto pare non era un bug e non metterlo non permette l'aliasing
-df3 = df.filter(df["failure"] > 0).groupBy("vault_id").agg(collect_set("model").alias("list_of_models"))
+df3 = df.filter(df["failure"] == 1).groupBy("vault_id").agg(collect_set("model").alias("list_of_models"))
 df4 = df3.join(df2, "vault_id").orderBy("failures", ascending=False).limit(10)
 
 df1.show()
@@ -36,9 +37,9 @@ df1.write.format("com.mongodb.spark.sql.DefaultSource") \
   .save()
 
 df4.write.format("com.mongodb.spark.sql.DefaultSource") \
-  .mode("overwrite") \
-  .option("collection", "query2.2") \
-  .save()
+    .mode("overwrite") \
+    .option("collection", "query2.2") \
+    .save()
   
 df.unpersist()
 
@@ -47,7 +48,7 @@ elapsed = end - start
 print("Execution time Parquet: ", elapsed)
 
 # Save the performance of the query
-perf = spark.createDataFrame([(end, "Query2", "Parquet", elapsed)], ["Timestamp", "Query", "File format", "Execution time (s)"])
+perf = spark.createDataFrame([(datetime.now().strftime('%Y-%m-%dT%H:%M:%S'), "Query2", "Parquet", elapsed)], ["Timestamp", "Query", "File format", "Execution time (s)"])
 
 perf.write.format("com.mongodb.spark.sql.DefaultSource") \
   .mode("append") \
@@ -67,17 +68,17 @@ schema = StructType([
 
 start = time()
 
-df = spark.read.csv("hdfs://namenode:8020/disk_data_filtered.csv", header=True, schema=schema)
+df = spark.read.csv("hdfs://namenode:8020/disk_data_filtered.csv", header=True, schema=schema) \
+  .drop("serial_number", "s9_power_on_hours", "date")
+df.cache()
 
 #prima parte
-df = df.drop("serial_number", "s9_power_on_hours", "date")
-df.cache()
-df1 = df.groupBy("model").agg(sum("failure").alias("failures"))
-df1 = df1.orderBy("failures", ascending=False).limit(10)
+df1 = df.groupBy("model").agg(sum("failure").alias("failures")) \
+  .orderBy("failures", ascending=False).limit(10)
 
 #seconda parte
 df2 = df.groupBy("vault_id").agg(sum("failure").alias("failures")) #AGG a quanto pare non era un bug e non metterlo non permette l'aliasing
-df3 = df.filter(df["failure"] > 0).groupBy("vault_id").agg(collect_set("model").alias("list_of_models"))
+df3 = df.filter(df["failure"] == 1).groupBy("vault_id").agg(collect_set("model").alias("list_of_models"))
 df4 = df3.join(df2, "vault_id").orderBy("failures", ascending=False).limit(10)
 
 df1.show()
@@ -88,7 +89,7 @@ elapsed = end - start
 print("Execution time CSV: ", elapsed)
 
 # Save the performance of the query
-perf = spark.createDataFrame([(end, "Query2", "CSV", elapsed)], ["Timestamp", "Query", "File format", "Execution time (s)"])
+perf = spark.createDataFrame([(datetime.now().strftime('%Y-%m-%dT%H:%M:%S'), "Query2", "CSV", elapsed)], ["Timestamp", "Query", "File format", "Execution time (s)"])
 
 perf.write.format("com.mongodb.spark.sql.DefaultSource") \
   .mode("append") \

@@ -2,6 +2,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from time import time
 from pyspark.sql.types import StructType, StructField, IntegerType, FloatType, DateType
+from datetime import datetime
 
 spark = SparkSession.builder \
   .appName("Query1") \
@@ -11,10 +12,10 @@ spark = SparkSession.builder \
 
 #PARQUET
 start = time()
-df = spark.read.parquet("hdfs://namenode:8020/disk_data_filtered.parquet")
-df = df.drop("serial_number", "model", "s9_power_on_hours")
-df = df.withColumn('date', date_format(col('date'), 'dd-MM-yyyy'))
-df = df.groupBy("date", "vault_id").agg(sum("failure").alias("failures"))
+df = spark.read.parquet("hdfs://namenode:8020/disk_data_filtered.parquet") \
+  .drop("serial_number", "model", "s9_power_on_hours") \
+  .withColumn('date', date_format(col('date'), 'dd-MM-yyyy')) \
+  .groupBy("date", "vault_id").agg(sum("failure").alias("failures"))
 df = df.filter((df["failures"] <= 4) & (df["failures"] >= 2))
 df.show()
 
@@ -30,7 +31,7 @@ elapsed = end - start
 print("Execution time Parquet: ", elapsed)
 
 # Save the performance of the query
-perf = spark.createDataFrame([(end, "Query1", "Parquet", elapsed)], ["Timestamp", "Query", "File format", "Execution time (s)"])
+perf = spark.createDataFrame([(datetime.now().strftime('%Y-%m-%dT%H:%M:%S'), "Query1", "Parquet", elapsed)], ["Timestamp", "Query", "File format", "Execution time (s)"])
 
 perf.write.format("com.mongodb.spark.sql.DefaultSource") \
   .mode("append") \
@@ -47,11 +48,12 @@ schema = StructType([
     StructField("vault_id", IntegerType(), True),
     StructField("s9_power_on_hours", FloatType(), True),
     ])
+
 start = time()
-df = spark.read.csv("hdfs://namenode:8020/disk_data_filtered.csv", header=True, schema=schema)
-df = df.drop("serial_number", "model", "s9_power_on_hours")
-df = df.withColumn('date', date_format(col('date'), 'dd-MM-yyyy'))
-df = df.groupBy("date", "vault_id").agg(sum("failure").alias("failures"))
+df = spark.read.csv("hdfs://namenode:8020/disk_data_filtered.csv", header=True, schema=schema) \
+  .drop("serial_number", "model", "s9_power_on_hours") \
+  .withColumn('date', date_format(col('date'), 'dd-MM-yyyy')) \
+  .groupBy("date", "vault_id").agg(sum("failure").alias("failures"))
 df = df.filter((df["failures"] <= 4) & (df["failures"] >= 2))
 df.show()
 
@@ -61,7 +63,7 @@ elapsed = end - start
 print("Execution time CSV: ", elapsed)
 
 # Save the performance of the query
-perf = spark.createDataFrame([(end, "Query1", "CSV", elapsed)], ["Timestamp", "Query", "File format", "Execution time (s)"])
+perf = spark.createDataFrame([(datetime.now().strftime('%Y-%m-%dT%H:%M:%S'), "Query1", "CSV", elapsed)], ["Timestamp", "Query", "File format", "Execution time (s)"])
 
 perf.write.format("com.mongodb.spark.sql.DefaultSource") \
   .mode("append") \
