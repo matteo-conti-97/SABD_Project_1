@@ -35,7 +35,7 @@ df_final = spark.createDataFrame(
       (1, failure_1_list[0], failure_1_list[1], failure_1_list[2], failure_1_list[3], failure_1_list[4], failure_1.count()), 
       (0, failure_0_list[0], failure_0_list[1], failure_0_list[2], failure_0_list[3], failure_0_list[4], failure_0.count())
     ], 
-    ["failure", "min", "25_percentile", "50_percentile", "75_percentile", "max", "count"])
+    ["failure", "min", "25th_percentile", "50th_percentile", "75th_percentile", "max", "count"])
 df_final.show()
 
 end = time.time()
