@@ -22,7 +22,7 @@ df1 = df.groupBy("model").agg(sum("failure").alias("failures"))\
   .orderBy("failures", ascending=False).limit(10)
 
 #seconda parte
-df2 = df.groupBy("vault_id").agg(sum("failure").alias("failures")) #AGG a quanto pare non era un bug e non metterlo non permette l'aliasing
+df2 = df.groupBy("vault_id").agg(sum("failure").alias("failures"))
 df3 = df.filter(df["failure"] == 1).groupBy("vault_id").agg(collect_set("model").alias("list_of_models"))
 df4 = df3.join(df2, "vault_id").orderBy("failures", ascending=False).limit(10)
 
@@ -77,7 +77,7 @@ df1 = df.groupBy("model").agg(sum("failure").alias("failures")) \
   .orderBy("failures", ascending=False).limit(10)
 
 #seconda parte
-df2 = df.groupBy("vault_id").agg(sum("failure").alias("failures")) #AGG a quanto pare non era un bug e non metterlo non permette l'aliasing
+df2 = df.groupBy("vault_id").agg(sum("failure").alias("failures"))
 df3 = df.filter(df["failure"] == 1).groupBy("vault_id").agg(collect_set("model").alias("list_of_models"))
 df4 = df3.join(df2, "vault_id").orderBy("failures", ascending=False).limit(10)
 
