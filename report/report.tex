@@ -56,6 +56,8 @@ Le query sono state eseguite sia a partire da file in formato CSV che in formato
 \subsubsection{Query 2}
 \subsubsection{Query 3}
 \subsection{Analytical Data Storage}
+I risultati delle query sono stati memorizzati in un database MongoDB.
+Per organizzare i dati, abbiamo creato una collezione per ciascuna query, dove ogni documento rappresenta una riga dei risultati ottenuti dalla query stessa. Inoltre, abbiamo un'altra collezione che contiene i risultati, includendo il timestamp dell'esperimento, la query specifica e il formato con cui è stata eseguita, oltre al tempo impiegato per l'esecuzione.
 \subsection{Visualization}
 \subsection{Analisi delle prestazioni}
 \section*{References}
