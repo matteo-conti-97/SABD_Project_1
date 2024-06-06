@@ -36,7 +36,7 @@ matteo.conti97@students.uniroma2.eu
 \section{Introduzione}
 \subsection{Descrizione del problema}
 Il problema da affrontare consiste nell'eseguire il batch processing di dati di grandi dimensioni mediante l'uso di una pipeline basata su framework Big Data. Nello specifico, l'obiettivo è analizzare un dataset contenente informazioni relative ai fallimenti dei dischi rigidi per l'esecuzione di 3 query di analisi dei dati e delle prestazioni di esse.
-
+\subsection*{Dataset}
 Il dataset fornito è una versione ridotta di quello presentato nel Grand Challenge della conferenza ACM DEBS 2024. Delle numerose colonne presenti nel dataset, ne sono state selezionate cinque per l'esecuzione delle query, in particolare:
 \begin{itemize}
     \item \textbf{date}: data della misurazione
@@ -46,6 +46,12 @@ Il dataset fornito è una versione ridotta di quello presentato nel Grand Challe
     \item \textbf{vault\_id}: identificativo del gruppo di storage server
     \item \textbf{power\_on\_hours}: ore di accensione del disco rigido
 \end{itemize}
+Osservando il dataset si può notare una ambiguità nella colonna "s9\_power\_on\_hours", essa contiene dei valori 0. Questi valori possono essere interpretati in due modi:
+\begin{itemize}
+    \item Il dato è un dato sporco di misurazione e quindi va eliminato.
+    \item Il disco rigido è stato acceso per meno di un'ora al momento della misurazione
+\end{itemize}
+Date le seguenti considerazione si è deciso di non eliminare i valori 0 e considerarli quindi validi. Questo va ad influenzare i risultati della 3 query, in particolare per quanto riguarda il minimo delle ore di accensione.
 \subsection{Obiettivi}
 \section{Pipeline}
 Per la gestione dei dati relativi ai guasti dei dischi rigidi, è stata implementata una pipeline ETL il cui deploy è stato fatto tramite docker compose. La pipeline è composta da diverse componenti, ognuna delle quali svolge un compito specifico, in particolare sono stati utilizzati Apache NiFi per la data ingestion, HDFS per il data storage, Spark per il data processing e MongoDB per l'analytical data storage, di seguito verrano illustrati i dettagli di ciascuna componente.
@@ -56,10 +62,10 @@ Per la gestione dei dati relativi ai guasti dei dischi rigidi, è stata implemen
     \label{fig:pipeline}
 \end{figure} 
 \subsection{Data Ingestion}
-Per la data ingestion è stato utilizzato il framework Apache NiFi, il quale permette di creare dei flussi di dati a partire da diversi tipi di sorgente, definire delle operazioni di trasformazione sui flussi di dati e andare a memorizzare il risultato delle trasformazioni su datastore di diverso tipo. Nel nostro caso NiFi svolge le seguenti operazioni:
+Per la data ingestion è stato utilizzato il framework Apache NiFi, il quale permette di creare dei flussi di dati a partire da diversi tipi di sorgente, definire delle operazioni di trasformazione su di essi e andare a memorizzare il risultato delle trasformazioni su datastore di diverso tipo. Nel nostro caso NiFi svolge le seguenti operazioni:
 \begin{enumerate}
     \item Riceve tramite HTTP il file CSV contenente i dati relativi ai guasti dei dischi rigidi
-    \item Effettua una query SQL (Fig. \ref{fig:nifi_query}) per selezionare solamente le cinque colonne di interesse del CSV ed effettuare pulizia dei dati rimuovendo righe contenenti valori nulli o invalidi. Il campo "s9\_power\_on\_hours" contiene dei valori 0, tuttavia essi non sono stati filtrati in quanto si assume che essi essi facciano riferimento a dischi che non hanno raggiunto l'ora di accensione al momento della misurazione.
+    \item Esegue una query SQL (Fig. \ref{fig:nifi_query}) per selezionare solamente le cinque colonne di interesse del CSV ed effettua una pulizia dei dati rimuovendo righe contenenti valori nulli o invalidi. 
     \item Effettua l'assegnazione esplicita dello schema ai dati, in quanto non facendolo NiFi non riconosce correttamente alcuni tipi di dato, interpretandoli come delle strutture
     \item Scrive i dati su HDFS in formato Parquet e CSV
 \end{enumerate}
