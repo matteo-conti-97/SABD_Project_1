@@ -32,6 +32,17 @@ matteo.conti97@students.uniroma2.eu
 
 \section{Introduzione}
 \subsection{Descrizione del problema}
+Il problema da affrontare consiste nell'eseguire il batch processing di dati di grandi dimensioni mediante l'uso di una pipeline basata su framework Big Data. Nello specifico, l'obiettivo è analizzare un dataset contenente informazioni relative ai fallimenti dei dischi rigidi per l'esecuzione di 3 query di analisi dei dati e delle prestazioni di esse.
+
+Il dataset fornito è una versione ridotta di quello presentato nel Grand Challenge della conferenza ACM DEBS 2024. Delle numerose colonne presenti nel dataset, ne sono state selezionate cinque per l'esecuzione delle query, in particolare:
+\begin{itemize}
+    \item \textbf{date}: data della misurazione
+    \item \textbf{serial\_number}: identificativo del disco rigido
+    \item \textbf{failure}: indica se il disco rigido ha avuto una failure o meno
+    \item \textbf{model}: modello del disco rigido
+    \item \textbf{vault\_id}: identificativo del gruppo di storage server
+    \item \textbf{power\_on\_hours}: ore di accensione del disco rigido
+\end{itemize}
 \subsection{Obiettivi}
 \section{Pipeline}
 \subsection{Data Source}
