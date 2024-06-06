@@ -515,9 +515,6 @@
                     <value>no-schema</value>
                 </entry>
                 <entry>
-                    <key>schema-cache</key>
-                </entry>
-                <entry>
                     <key>schema-protocol-version</key>
                     <value>1</value>
                 </entry>
@@ -534,23 +531,8 @@
                     <value>diskDataFiltered</value>
                 </entry>
                 <entry>
-                    <key>schema-version</key>
-                </entry>
-                <entry>
-                    <key>schema-branch</key>
-                </entry>
-                <entry>
                     <key>schema-text</key>
                     <value>${avro.schema}</value>
-                </entry>
-                <entry>
-                    <key>Date Format</key>
-                </entry>
-                <entry>
-                    <key>Time Format</key>
-                </entry>
-                <entry>
-                    <key>Timestamp Format</key>
                 </entry>
                 <entry>
                     <key>CSV Format</key>
@@ -571,12 +553,6 @@
                 <entry>
                     <key>Escape Character</key>
                     <value>\</value>
-                </entry>
-                <entry>
-                    <key>Comment Marker</key>
-                </entry>
-                <entry>
-                    <key>Null String</key>
                 </entry>
                 <entry>
                     <key>Trim Fields</key>
@@ -881,27 +857,12 @@
                     <value>diskDataFilteredType</value>
                 </entry>
                 <entry>
-                    <key>schema-version</key>
-                </entry>
-                <entry>
-                    <key>schema-branch</key>
-                </entry>
-                <entry>
                     <key>schema-text</key>
                     <value>${avro.schema}</value>
                 </entry>
                 <entry>
                     <key>csv-reader-csv-parser</key>
                     <value>commons-csv</value>
-                </entry>
-                <entry>
-                    <key>Date Format</key>
-                </entry>
-                <entry>
-                    <key>Time Format</key>
-                </entry>
-                <entry>
-                    <key>Timestamp Format</key>
                 </entry>
                 <entry>
                     <key>CSV Format</key>
@@ -930,12 +891,6 @@
                 <entry>
                     <key>Escape Character</key>
                     <value>\</value>
-                </entry>
-                <entry>
-                    <key>Comment Marker</key>
-                </entry>
-                <entry>
-                    <key>Null String</key>
                 </entry>
                 <entry>
                     <key>Trim Fields</key>
@@ -1240,9 +1195,6 @@
                     <value>no-schema</value>
                 </entry>
                 <entry>
-                    <key>schema-cache</key>
-                </entry>
-                <entry>
                     <key>schema-protocol-version</key>
                     <value>1</value>
                 </entry>
@@ -1259,23 +1211,8 @@
                     <value>diskDataFilteredType</value>
                 </entry>
                 <entry>
-                    <key>schema-version</key>
-                </entry>
-                <entry>
-                    <key>schema-branch</key>
-                </entry>
-                <entry>
                     <key>schema-text</key>
                     <value>${avro.schema}</value>
-                </entry>
-                <entry>
-                    <key>Date Format</key>
-                </entry>
-                <entry>
-                    <key>Time Format</key>
-                </entry>
-                <entry>
-                    <key>Timestamp Format</key>
                 </entry>
                 <entry>
                     <key>CSV Format</key>
@@ -1296,12 +1233,6 @@
                 <entry>
                     <key>Escape Character</key>
                     <value>\</value>
-                </entry>
-                <entry>
-                    <key>Comment Marker</key>
-                </entry>
-                <entry>
-                    <key>Null String</key>
                 </entry>
                 <entry>
                     <key>Trim Fields</key>
@@ -1640,27 +1571,12 @@
                     <value>${schema.name}</value>
                 </entry>
                 <entry>
-                    <key>schema-version</key>
-                </entry>
-                <entry>
-                    <key>schema-branch</key>
-                </entry>
-                <entry>
                     <key>schema-text</key>
                     <value>${avro.schema}</value>
                 </entry>
                 <entry>
                     <key>csv-reader-csv-parser</key>
                     <value>jackson-csv</value>
-                </entry>
-                <entry>
-                    <key>Date Format</key>
-                </entry>
-                <entry>
-                    <key>Time Format</key>
-                </entry>
-                <entry>
-                    <key>Timestamp Format</key>
                 </entry>
                 <entry>
                     <key>CSV Format</key>
@@ -1689,12 +1605,6 @@
                 <entry>
                     <key>Escape Character</key>
                     <value>\</value>
-                </entry>
-                <entry>
-                    <key>Comment Marker</key>
-                </entry>
-                <entry>
-                    <key>Null String</key>
                 </entry>
                 <entry>
                     <key>Trim Fields</key>
@@ -2122,26 +2032,8 @@
                         <value>/opt/nifi/nifi-current/conf/hdfs-config/core-site.xml,/opt/nifi/nifi-current/conf/hdfs-config/hdfs-site.xml</value>
                     </entry>
                     <entry>
-                        <key>kerberos-credentials-service</key>
-                    </entry>
-                    <entry>
-                        <key>kerberos-user-service</key>
-                    </entry>
-                    <entry>
-                        <key>Kerberos Principal</key>
-                    </entry>
-                    <entry>
-                        <key>Kerberos Keytab</key>
-                    </entry>
-                    <entry>
-                        <key>Kerberos Password</key>
-                    </entry>
-                    <entry>
                         <key>Kerberos Relogin Period</key>
                         <value>4 hours</value>
-                    </entry>
-                    <entry>
-                        <key>Additional Classpath Resources</key>
                     </entry>
                     <entry>
                         <key>Directory</key>
@@ -2158,24 +2050,6 @@
                     <entry>
                         <key>writing-strategy</key>
                         <value>writeAndRename</value>
-                    </entry>
-                    <entry>
-                        <key>Block Size</key>
-                    </entry>
-                    <entry>
-                        <key>IO Buffer Size</key>
-                    </entry>
-                    <entry>
-                        <key>Replication</key>
-                    </entry>
-                    <entry>
-                        <key>Permissions umask</key>
-                    </entry>
-                    <entry>
-                        <key>Remote Owner</key>
-                    </entry>
-                    <entry>
-                        <key>Remote Group</key>
                     </entry>
                     <entry>
                         <key>Compression codec</key>
@@ -2389,14 +2263,8 @@
                 <penaltyDuration>30 sec</penaltyDuration>
                 <properties>
                     <entry>
-                        <key>Delete Attributes Expression</key>
-                    </entry>
-                    <entry>
                         <key>Store State</key>
                         <value>Do not store state</value>
-                    </entry>
-                    <entry>
-                        <key>Stateful Variables Initial Value</key>
                     </entry>
                     <entry>
                         <key>canonical-value-lookup-cache-size</key>
@@ -2607,26 +2475,8 @@
                         <value>/opt/nifi/nifi-current/conf/hdfs-config/core-site.xml,/opt/nifi/nifi-current/conf/hdfs-config/hdfs-site.xml</value>
                     </entry>
                     <entry>
-                        <key>kerberos-credentials-service</key>
-                    </entry>
-                    <entry>
-                        <key>kerberos-user-service</key>
-                    </entry>
-                    <entry>
-                        <key>Kerberos Principal</key>
-                    </entry>
-                    <entry>
-                        <key>Kerberos Keytab</key>
-                    </entry>
-                    <entry>
-                        <key>Kerberos Password</key>
-                    </entry>
-                    <entry>
                         <key>Kerberos Relogin Period</key>
                         <value>4 hours</value>
-                    </entry>
-                    <entry>
-                        <key>Additional Classpath Resources</key>
                     </entry>
                     <entry>
                         <key>record-reader</key>
@@ -2643,36 +2493,6 @@
                     <entry>
                         <key>overwrite</key>
                         <value>true</value>
-                    </entry>
-                    <entry>
-                        <key>permissions-umask</key>
-                    </entry>
-                    <entry>
-                        <key>remote-group</key>
-                    </entry>
-                    <entry>
-                        <key>remote-owner</key>
-                    </entry>
-                    <entry>
-                        <key>row-group-size</key>
-                    </entry>
-                    <entry>
-                        <key>page-size</key>
-                    </entry>
-                    <entry>
-                        <key>dictionary-page-size</key>
-                    </entry>
-                    <entry>
-                        <key>max-padding-size</key>
-                    </entry>
-                    <entry>
-                        <key>enable-dictionary-encoding</key>
-                    </entry>
-                    <entry>
-                        <key>enable-validation</key>
-                    </entry>
-                    <entry>
-                        <key>writer-version</key>
                     </entry>
                     <entry>
                         <key>avro-write-old-list-structure</key>
@@ -2895,14 +2715,8 @@
                 <penaltyDuration>30 sec</penaltyDuration>
                 <properties>
                     <entry>
-                        <key>Delete Attributes Expression</key>
-                    </entry>
-                    <entry>
                         <key>Store State</key>
                         <value>Do not store state</value>
-                    </entry>
-                    <entry>
-                        <key>Stateful Variables Initial Value</key>
                     </entry>
                     <entry>
                         <key>canonical-value-lookup-cache-size</key>
@@ -3078,15 +2892,6 @@
                         <value>5200</value>
                     </entry>
                     <entry>
-                        <key>health-check-port</key>
-                    </entry>
-                    <entry>
-                        <key>Max Data to Receive per Second</key>
-                    </entry>
-                    <entry>
-                        <key>SSL Context Service</key>
-                    </entry>
-                    <entry>
                         <key>HTTP Protocols</key>
                         <value>HTTP_1_1</value>
                     </entry>
@@ -3107,9 +2912,6 @@
                         <value>60 secs</value>
                     </entry>
                     <entry>
-                        <key>HTTP Headers to receive as Attributes (Regex)</key>
-                    </entry>
-                    <entry>
                         <key>Return Code</key>
                         <value>200</value>
                     </entry>
@@ -3124,12 +2926,6 @@
                     <entry>
                         <key>max-thread-pool-size</key>
                         <value>200</value>
-                    </entry>
-                    <entry>
-                        <key>record-reader</key>
-                    </entry>
-                    <entry>
-                        <key>record-writer</key>
                     </entry>
                 </properties>
                 <retryCount>10</retryCount>
