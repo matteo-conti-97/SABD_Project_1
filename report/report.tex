@@ -47,7 +47,7 @@ Il dataset fornito è una versione ridotta di quello presentato nel Grand Challe
 \end{itemize}
 \subsection{Obiettivi}
 \section{Pipeline}
-Per la gestione dei dati relativi ai guasti dei dischi rigidi, è stata implementata una pipeline ETL il cui deploy è stato fatto tramite docker compose. La pipeline è composta da diverse componenti, ognuna delle quali svolge un compito specifico, di seguito verranno analizzate le varie componenti della stessa.
+Per la gestione dei dati relativi ai guasti dei dischi rigidi, è stata implementata una pipeline ETL il cui deploy è stato fatto tramite docker compose. La pipeline è composta da diverse componenti, ognuna delle quali svolge un compito specifico, in particolare sono stati utilizzati Apache NiFi per la data ingestion, HDFS per il data storage, Spark per il data processing e MongoDB per l'analytical data storage, di seguito verrano illustrati i dettagli di ciascuna componente.
 \subsection{Data Ingestion}
 Per la data ingestion è stato utilizzato il framework Apache NiFi, il quale permette di creare dei flussi di dati a partire da diversi tipi di sorgente, definire delle operazioni di trasformazione sui flussi di dati e andare a memorizzare il risultato delle trasformazioni su datastore di diverso tipo. Nel nostro caso NiFi svolge le seguenti operazioni:
 \begin{enumerate}
