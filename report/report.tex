@@ -6,6 +6,8 @@
 \usepackage{algorithmic}
 \usepackage{graphicx}
 \usepackage{textcomp}
+\usepackage{float} % for H placement option
+\usepackage{listings}
 \usepackage{xcolor}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -45,9 +47,28 @@ Il dataset fornito è una versione ridotta di quello presentato nel Grand Challe
 \end{itemize}
 \subsection{Obiettivi}
 \section{Pipeline}
-\subsection{Data Source}
+Per la gestione dei dati relativi ai guasti dei dischi rigidi, è stata implementata una pipeline ETL deployata in dei container docker. La pipeline è composta da diverse componenti, ognuna delle quali svolge un compito specifico, di seguito verranno analizzate le varie componenti della stessa.
 \subsection{Data Ingestion}
+Per la data ingestion è stato utilizzato il framework Apache NiFi, il quale permette di creare dei flussi di dati a partire da diversi tipi di sorgente, definire delle operazioni di trasformazione sui flussi di dati e andare a memorizzare il risultato delle trasformazioni su datastore di diverso tipo. Nel nostro caso NiFi svolge le seguenti operazioni:
+\begin{enumerate}
+    \item Riceve tramite HTTP il file CSV contenente i dati relativi ai guasti dei dischi rigidi
+    \item Effettua una query SQL (Figura \ref{fig:nifi_query}) per selezionare solamente le cinque colonne di interesse del CSV ed effettuare pulizia dei dati rimuovendo righe contenenti valori nulli o invalidi
+    \item Effettua l'assegnazione esplicita dello schema ai dati
+    \item Scrive i dati su HDFS in formato Parquet e CSV
+\end{enumerate}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{./res/query_nifi.png}
+    \caption{Query SQL filtraggio dati NiFi}
+    \label{fig:nifi_query}
+\end{figure} 
 \subsection{Data Storage}
+Come data lake in cui memorizzare i dati a a seguito del preprocessamento effettuato da parte di NiFi è stato utilizzato HDFS, il quale permette di memorizzare grandi quantità di dati su un cluster di nodi. Nel nostro caso il cluster è composto da:
+\begin{itemize}
+    \item 1 NameNode
+    \item 2 DataNode
+\end{itemize}
+Non è stata utilizzata una struttura particolare per l'organizzazione dei file all'interno di HDFS, i file sono stati memorizzati tutti nella root directory. 
 \subsection{Data Processing}
 Per il processamento dei dati e quindi l'esecuzione delle query è stato utilizzato il framework Spark, in particolare utilizzando la versione per python PySpark.Per queste query è stato utilizzato un cluster composto da uno spark master e quattro spark worker. Per farlo abbiamo utilizzato l'immagine bitami/spark nella versione 3.5.1. Per l'orchestrazione del cluster abbiamo utilizzato docker compose.
 Il dataset parzialemente filtrato è stato caricato dall'hdfs e i risultati delle query sono stati salvati in mongodb utilizzando il connettore spark-mongodb.
@@ -67,11 +88,10 @@ Per organizzare i dati, abbiamo creato una collezione per ciascuna query, dove o
 \subsection{Visualization}
 \subsection{Analisi delle prestazioni}
 \section*{References}
-
 Please number citations consecutively within brackets \cite{b1}. The 
 sentence punctuation follows the bracket \cite{b2}. Refer simply to the reference 
 number, as in \cite{b3}---do not use ``Ref. \cite{b3}'' or ``reference \cite{b3}'' except at 
-the beginning of a sentence: ``Reference \cite{b3} was the first $\ldots$''
+the beginning of a sentence: ``Reference \cite{b3} was the first $\ldots$''s
 
 Number footnotes separately in superscripts. Place the actual footnote at 
 the bottom of the column in which it was cited. Do not put footnotes in the 
@@ -100,3 +120,5 @@ citation first, followed by the original foreign-language citation \cite{b6}.
 
 
 \end{document}
+
+    

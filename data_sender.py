@@ -12,7 +12,7 @@ def upload_file(url, file_path):
 if __name__ == "__main__":
     url = 'http://localhost:5200/listener'
     
-    file_path = './data/dataset/disk_data.csv'
+    file_path = './data/dataset/raw_data_medium-utv_sorted.csv'
 
     # Call the upload_file function
     upload_file(url, file_path)
