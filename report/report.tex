@@ -53,7 +53,7 @@ Per la data ingestion è stato utilizzato il framework Apache NiFi, il quale per
 \begin{enumerate}
     \item Riceve tramite HTTP il file CSV contenente i dati relativi ai guasti dei dischi rigidi
     \item Effettua una query SQL (Fig. \ref{fig:nifi_query}) per selezionare solamente le cinque colonne di interesse del CSV ed effettuare pulizia dei dati rimuovendo righe contenenti valori nulli o invalidi
-    \item Effettua l'assegnazione esplicita dello schema ai dati
+    \item Effettua l'assegnazione esplicita dello schema ai dati, in quanto non facendolo NiFi non riconosce correttamente alcuni tipi di dato, interpretandoli come delle strutture
     \item Scrive i dati su HDFS in formato Parquet e CSV
 \end{enumerate}
 \begin{figure}[H]
@@ -61,6 +61,12 @@ Per la data ingestion è stato utilizzato il framework Apache NiFi, il quale per
     \includegraphics[width=0.4\textwidth]{./res/query_nifi.png}
     \caption{Query SQL filtraggio dati NiFi}
     \label{fig:nifi_query}
+\end{figure} 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./res/nifi_flow.png}
+    \caption{Nifi flow}
+    \label{fig:nifi_flow}
 \end{figure} 
 \subsection{Data Storage}
 Come data lake in cui memorizzare i dati a a seguito del preprocessamento effettuato da parte di NiFi è stato utilizzato HDFS, il quale permette di memorizzare grandi quantità di dati su un cluster di nodi. Nel nostro caso il cluster è composto da:
@@ -77,6 +83,12 @@ Le query sono state eseguite sia a partire dal file in formato CSV che dal file 
 La query 1 prevede di calcolare per ogni giorno, per ogni vault (facendo riferimento al campo vault id), il numero totale di fallimenti, in particolare occorre determinare la lista di vault che hanno subito esattamente 4, 3 e 2 fallimenti.
 \subsubsection{Query 2}
 La query 2 è composta di due parti:
+\begin{enumerate}
+    \item Calcolare la classifica dei 10 modelli di hard disk che hanno subito il maggior numero di fallimenti, riportando il modello di hard disk e il numero totale di fallimenti subiti dagli hard disk di quello specifico modello
+    \item Calcolare la classifica dei 10 vault che hanno registrato il maggior numero di
+    fallimenti riportando, per ogni vault, il numero di fallimenti e la lista (senza ripetizioni) dei modelli di
+    hark disk soggetti ad almeno un fallimento.
+\end{enumerate}
 \subsubsection{Query 3}
 La query 3 prevede di calcolare il minimo, 25-esimo, 50-esimo, 75-esimo percentile e massimo delle ore di funzionamento (campo s9\_power\_on\_hours) degli hark disk che hanno subito fallimenti e degli hard disk che non
 hanno subito fallimenti, indicando anche il numero totale di eveneti utilizzati per il calcolo delle statistiche.
