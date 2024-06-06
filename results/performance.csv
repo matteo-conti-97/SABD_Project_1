@@ -1,0 +1,7 @@
+"_id","Timestamp","Query","File format","Execution time (s)"
+"ObjectId(""6661edcf04cdf4092125d0c5"")","2024-06-06T17:11:40","Query1","Parquet",11.939990997314453
+"ObjectId(""6661ede5b94ffc78bfc8b5fb"")","2024-06-06T17:12:04","Query1","CSV",21.30294704437256
+"ObjectId(""6661f056e42b87320e2ca77a"")","2024-06-06T17:22:28","Query2","Parquet",14.784262895584106
+"ObjectId(""6661f05ed9077256ea78365d"")","2024-06-06T17:22:37","Query2","CSV",7.107267141342163
+"ObjectId(""6661f0cd2b42733f7b3b7dd6"")","2024-06-06T17:24:27","Query3","Parquet",23.235679388046265
+"ObjectId(""6661f13a2b42733f7b3b7dd8"")","2024-06-06T17:26:13","Query3","CSV",104.2644715309143
