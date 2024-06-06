@@ -49,6 +49,9 @@ Il dataset fornito è una versione ridotta di quello presentato nel Grand Challe
 \subsection{Data Ingestion}
 \subsection{Data Storage}
 \subsection{Data Processing}
+Per il processamento dei dati e quindi l'esecuzione delle query è stato utilizzato il framework Spark, in particolare utilizzando la versione per python PySpark.Per queste query è stato utilizzato un cluster composto da uno spark master e quattro spark worker. Per farlo abbiamo utilizzato l'immagine bitami/spark nella versione 3.5.1. Per l'orchestrazione del cluster abbiamo utilizzato docker compose.
+Il dataset parzialemente filtrato è stato caricato dall'hdfs e i risultati delle query sono stati salvati in mongodb utilizzando il connettore spark-mongodb.
+Le query sono state eseguite sia a partire da file in formato CSV che in formato Parquet per valutare le differenze di prestazioni tra un formato basato su colonne e uno basato su righe.
 \subsubsection{Query 1}
 \subsubsection{Query 2}
 \subsubsection{Query 3}
