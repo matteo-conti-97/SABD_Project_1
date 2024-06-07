@@ -98,7 +98,12 @@ Inoltre dato che le query sono formate principalmente da trasformazioni, l'azion
 \subsubsection{Query 1}
 La query 1 prevede di calcolare per ogni giorno, per ogni vault (facendo riferimento al campo vault id), il numero totale di fallimenti, in particolare occorre determinare la lista di vault che hanno subito esattamente 4, 3 e 2 fallimenti.
 
-Per prima cosa è stato fatto il drop delle colonne inutili per la query, che in questo caso sono "serial\_number", "model" e "s9\_power\_on\_hours", successivamente è stato fatto il group by per "date" e "vault\_id" e la somma dei fallimenti (essendo i fallimenti rappresentati dai valori 0 e 1 la loro somma rappresenta il numero di fallimenti). Infine è stato effettuato un filtraggio che seleziona solo i vault che hanno subito un numero di fallimenti $\geq2$ e $\leq4$ 
+Per prima cosa è stato fatto il drop delle colonne inutili per la query, che in questo caso sono "serial\_number", "model" e "s9\_power\_on\_hours", successivamente è stato fatto il group by per "date" e "vault\_id" e la somma dei fallimenti (essendo i fallimenti rappresentati dai valori 0 e 1 la loro somma rappresenta il numero di fallimenti). Infine è stato effettuato un filtraggio che seleziona solo i vault che hanno subito un numero di fallimenti $\geq2$ e $\leq4$
+\begin{figure}[H]
+    \centerline{\includegraphics[width=0.5\textwidth]{res/query1_dag.png}}
+    \caption{DAG di alto livello della query 1}
+    \label{fig:dag_query1}
+\end{figure}
 
 \subsubsection{Query 2}
 La query 2 è composta di due parti:
@@ -120,7 +125,11 @@ Per la seconda parte della query vengono generati due dataframe, il primo facend
 La query 3 prevede di calcolare il minimo, 25-esimo, 50-esimo, 75-esimo percentile e massimo delle ore di funzionamento (campo s9\_power\_on\_hours) degli hark disk che hanno subito fallimenti e degli hard disk che non hanno subito fallimenti, indicando anche il numero totale di eveneti utilizzati per il calcolo delle statistiche.
 Dato che il campo "s9\_power\_on\_hours" è un campo cumulativo, per ottenere il tempo di funzionamento è necessario guardare la data più recente disponibile.
 Anche in questo caso per prima cosa è stato fatto il drop delle colonne non necessarie che in questo caso sono "model" e "vault\_id", successivamente è stato fatto un cache() per mantenere in memoria il Dataframe ed evitare di doverlo costruire più volte, in quanto esso verrà utilizzato per due operazioni diverse. A questo punto dal dataframe originale ne vengono generati altri due, uno che contenenete solamente dischi che hanno subito fallimenti ed uno che contenente solamente dischi che non hanno subito fallimenti. Per entrambi i Dataframe sono viene fatto un group by per "serial\_number" e viene prelevato il valore più recente di "s9\_power\_on\_hours" applicando alla colonna "date" la funzione first(), la quale ne preleva la prima riga; questo è stato possibile in quanto il dataset è ordinato per data evitando di dover usare la funzione max() che avrebbe avuto un impatto maggiore sulle performance. Prima di eseguire il calcolo dei quantili è stato effettuato il drop delle colonne "serial\_number" e "date" in modo da tenere solamente il dato relativo delle ore di funzionamento per le failure 0 e 1 ed allegerire quindi le successive elaborazioni. Infine per il calcolo effettivo dei quantili è stata utilizzata la funzione approxQuantile() che permette di calcolare i quantili approssimati in modo efficiente, tramite essa è stato possibile calcolare anche il minimo ed il massimo che corrispondono rispettivamente al quanitle 0 e 100. Per generare il risultato della query è stato creato un nuovo dataframe contenente l'output di approxQuantile() e la count() delle righe utilizzate per il calcolo dei quantili per entrambi i dataframe (con e senza fallimenti).
-
+\begin{figure}[H]
+    \centerline{\includegraphics[width=0.5\textwidth]{res/query3_dag.png}}
+    \caption{DAG di alto livello della query 3}
+    \label{fig:dag_query3}
+\end{figure}
 \subsection{Analytical Data Storage}
 I risultati delle query sono stati memorizzati in un database a documento, in particolare MongoDB (Fig. \ref{fig:mongo}).
 Per organizzare i dati, è stata creata una collezione per ciascuna query, in cui ogni documento rappresenta una riga dei risultati ottenuti dalla query stessa. Inoltre, è stata creata un'altra collezione che contiene le performance, in particolare vengono riportati il timestamp dell'esperimento, la query, il formato del dataset su cui la query è stata eseguita ed il tempo di esecuzione della query stessa.
