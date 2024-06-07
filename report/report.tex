@@ -53,6 +53,7 @@ Osservando il dataset si può notare una ambiguità nella colonna "s9\_power\_on
 \end{itemize}
 Date le seguenti considerazione si è deciso di non eliminare i valori 0 e considerarli quindi validi. Questo va ad influenzare i risultati della 3 query, in particolare per quanto riguarda il minimo delle ore di accensione.
 \subsection{Obiettivi}
+Gli obiettivi del progetto sono quelli di eseguire le query proposte e di valutare le prestazioni di esse a partire da due formati di file, CSV e Parquet. Il motivo della scelta di Parquet è perché essendo un formato basato su colonne, risulta essere più efficiente per le query di aggregazione e quindi in fase di progettazione analizzando le query ci è sembrato più adeguato utilizzarlo rispetto ad altri formati per righe.
 \section{Pipeline}
 Per la gestione dei dati relativi ai guasti dei dischi rigidi, è stata implementata una pipeline ETL il cui deploy è stato fatto tramite docker compose. La pipeline è composta da diverse componenti, ognuna delle quali svolge un compito specifico, in particolare sono stati utilizzati Apache NiFi per la data ingestion, HDFS per il data storage, Spark per il data processing e MongoDB per l'analytical data storage, di seguito verrano illustrati i dettagli di ciascuna componente.
 \begin{figure}[H]
@@ -129,6 +130,8 @@ Per organizzare i dati, è stata creata una collezione per ciascuna query, in cu
     \label{fig:mongo}
 \end{figure}
 \subsection{Analisi delle prestazioni}
+L'analisi delle prestazioni è stata effettuata per ciascuna query, in particolare sono stati valutati i tempi di esecuzione delle query a partire dai due formati di file, CSV e Parquet, e sono stati confrontati i risultati ottenuti.
+
 \vspace{12pt}
 \end{document}
 
