@@ -183,6 +183,9 @@ In particolare sono stati sviluppati i seguenti pannelli:
     \label{fig:grafana_dashboard}
 \end{figure}
 \subsection{Analisi delle prestazioni}
+\subsubsection{Configurazione ambiente}
+%TODO
+\subsubsection{Risultati}
 L'analisi delle prestazioni è stata effettuata per ciascuna query, in particolare sono stati valutati i tempi di esecuzione delle query sui due formati di file, CSV e Parquet, e sono stati confrontati i risultati ottenuti.
 Come detto in precedenza ci si aspetta che il formato Parquet sia più efficiente rispetto al formato CSV, in quanto essendo un formato basato su colonne, risulta essere più efficiente per le query di aggregazione.
 Tuttavia questo vantaggio sembra esserci solo per la query 1 e 3. Infatti nella query 2 i tempi di esecuzione sono minori utilizzando il formato CSV rispetto al formato Parquet (Fig. \ref{fig:performance_panel}).
