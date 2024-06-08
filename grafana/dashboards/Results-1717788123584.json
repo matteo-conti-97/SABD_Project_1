@@ -1,0 +1,998 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "bdo551wz4pddsc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "top",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "",
+          "values": true
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "text"
+      },
+      "pluginVersion": "10.4.3",
+      "targets": [
+        {
+          "columns": [],
+          "data": "\"_id\",\"vault_id\",\"list_of_models\",\"failures\"\n\"ObjectId(\"\"6661f053891a7f072ce79deb\"\")\",1113,\"[\"\"HGST HUH721212ALN604\"\"]\",15\n\"ObjectId(\"\"6661f053891a7f072ce79dec\"\")\",1120,\"[\"\"HGST HUH721212ALN604\"\"]\",10\n\"ObjectId(\"\"6661f053891a7f072ce79ded\"\")\",1093,\"[\"\"ST10000NM0086\"\"]\",9\n\"ObjectId(\"\"6661f053891a7f072ce79dee\"\")\",1118,\"[\"\"HGST HUH721212ALN604\"\"]\",8\n\"ObjectId(\"\"6661f053891a7f072ce79def\"\")\",1053,\"[\"\"ST8000NM0055\"\",\"\"TOSHIBA MQ01ABF050M\"\"]\",8\n\"ObjectId(\"\"6661f053891a7f072ce79df0\"\")\",1032,\"[\"\"ST8000DM002\"\"]\",7\n\"ObjectId(\"\"6661f053891a7f072ce79df1\"\")\",1090,\"[\"\"ST8000NM0055\"\",\"\"WDC WD5000LPVX\"\",\"\"TOSHIBA MQ01ABF050\"\"]\",7\n\"ObjectId(\"\"6661f053891a7f072ce79df2\"\")\",1055,\"[\"\"ST8000NM0055\"\"]\",6\n\"ObjectId(\"\"6661f053891a7f072ce79df3\"\")\",1066,\"[\"\"TOSHIBA MG07ACA14TA\"\"]\",6\n\"ObjectId(\"\"6661f053891a7f072ce79df4\"\")\",1124,\"[\"\"HGST HUH721212ALN604\"\"]\",5",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "csv",
+          "url": "https://github.com/matteo-conti-97/hard_disk_failure_data_processing/blob/main/results/query2.2.csv",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Vault id Failures",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "failures"
+              },
+              {
+                "destinationType": "other",
+                "targetField": "list_of_models"
+              },
+              {
+                "destinationType": "string",
+                "enumConfig": {
+                  "text": [
+                    "1113",
+                    "1120",
+                    "1093",
+                    "1118",
+                    "1053",
+                    "1032",
+                    "1090",
+                    "1055",
+                    "1066",
+                    "1124"
+                  ]
+                },
+                "targetField": "vault_id"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "failures",
+                "vault_id"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "bdo551wz4pddsc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "displayMode": "basic",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "",
+          "values": true
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "pluginVersion": "10.4.3",
+      "targets": [
+        {
+          "columns": [],
+          "data": "\"_id\",\"model\",\"failures\"\n\"ObjectId(\"\"6661f052891a7f072ce79de1\"\")\",\"ST8000NM0055\",50\n\"ObjectId(\"\"6661f052891a7f072ce79de2\"\")\",\"HGST HUH721212ALN604\",48\n\"ObjectId(\"\"6661f052891a7f072ce79de3\"\")\",\"ST4000DM000\",27\n\"ObjectId(\"\"6661f052891a7f072ce79de4\"\")\",\"ST12000NM0008\",24\n\"ObjectId(\"\"6661f052891a7f072ce79de5\"\")\",\"ST8000DM002\",22\n\"ObjectId(\"\"6661f052891a7f072ce79de6\"\")\",\"TOSHIBA MG07ACA14TA\",21\n\"ObjectId(\"\"6661f052891a7f072ce79de7\"\")\",\"ST10000NM0086\",10\n\"ObjectId(\"\"6661f052891a7f072ce79de8\"\")\",\"HGST HMS5C4040BLE640\",10\n\"ObjectId(\"\"6661f052891a7f072ce79de9\"\")\",\"HGST HUH721212ALE604\",9\n\"ObjectId(\"\"6661f052891a7f072ce79dea\"\")\",\"WDC WUH721414ALE6L4\",6",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "csv",
+          "uql": "parse-csv",
+          "url": "https://github.com/matteo-conti-97/hard_disk_failure_data_processing/blob/main/results/query2.1.csv",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Ranking Model Failure",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "failures"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "failures",
+                "model"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "bdo551wz4pddsc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 2,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "columns": [],
+          "data": "\"_id\",\"date\",\"vault_id\",\"failures\"\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5d8\"\")\",\"04-04-2023\",1066,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5d9\"\")\",\"11-04-2023\",1036,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5da\"\")\",\"15-04-2023\",1118,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5db\"\")\",\"14-04-2023\",1128,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5dc\"\")\",\"05-04-2023\",1093,3\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5dd\"\")\",\"18-04-2023\",1033,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5de\"\")\",\"15-04-2023\",1113,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5df\"\")\",\"08-04-2023\",1124,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5e0\"\")\",\"21-04-2023\",1127,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5e1\"\")\",\"14-04-2023\",1120,4\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5e2\"\")\",\"17-04-2023\",1066,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5e3\"\")\",\"17-04-2023\",1113,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5e4\"\")\",\"17-04-2023\",1053,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5e5\"\")\",\"05-04-2023\",1044,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5e6\"\")\",\"20-04-2023\",1132,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5e7\"\")\",\"12-04-2023\",1113,3\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5e8\"\")\",\"18-04-2023\",1113,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5e9\"\")\",\"11-04-2023\",1040,3\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5ea\"\")\",\"07-04-2023\",1133,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5eb\"\")\",\"04-04-2023\",1113,3\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5ec\"\")\",\"19-04-2023\",1091,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5ed\"\")\",\"07-04-2023\",1033,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5ee\"\")\",\"20-04-2023\",1113,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5ef\"\")\",\"12-04-2023\",1096,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5f0\"\")\",\"11-04-2023\",1093,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5f1\"\")\",\"11-04-2023\",1092,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5f2\"\")\",\"05-04-2023\",1041,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5f3\"\")\",\"05-04-2023\",1014,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5f4\"\")\",\"14-04-2023\",1161,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5f5\"\")\",\"18-04-2023\",1118,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5f6\"\")\",\"08-04-2023\",1400,2\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5f7\"\")\",\"05-04-2023\",1032,3\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5f8\"\")\",\"11-04-2023\",1090,3\n\"ObjectId(\"\"6661edccb94ffc78bfc8b5f9\"\")\",\"05-04-2023\",1010,2",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "csv",
+          "url": "https://github.com/matteo-conti-97/hard_disk_failure_data_processing/blob/main/results/query1.csv",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Number of Vault id for Failure",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "failures",
+                "vault_id",
+                "date"
+              ]
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "failures"
+              },
+              {
+                "destinationType": "enum",
+                "enumConfig": {
+                  "text": [
+                    "1066",
+                    "1036",
+                    "1118",
+                    "1128",
+                    "1093",
+                    "1033",
+                    "1113",
+                    "1124",
+                    "1127",
+                    "1120",
+                    "1053",
+                    "1044",
+                    "1132",
+                    "1040",
+                    "1133",
+                    "1091",
+                    "1096",
+                    "1092",
+                    "1041",
+                    "1014",
+                    "1161",
+                    "1400",
+                    "1032",
+                    "1090",
+                    "1010"
+                  ]
+                },
+                "targetField": "vault_id"
+              },
+              {
+                "dateFormat": "DD-MM-YYYY",
+                "destinationType": "time",
+                "targetField": "date"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "date": {
+                "aggregations": []
+              },
+              "failures": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "vault_id": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              }
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "enum",
+                "enumConfig": {
+                  "text": [
+                    2,
+                    3,
+                    4
+                  ]
+                },
+                "targetField": "failures"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "rowsToFields",
+          "options": {
+            "mappings": [
+              {
+                "fieldName": "failures",
+                "handlerKey": "field.name"
+              },
+              {
+                "fieldName": "vault_id (count)",
+                "handlerKey": "field.value"
+              }
+            ]
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "0": "2 Failure",
+              "1": "3 Failure",
+              "2": "4 Failure"
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "bdo551wz4pddsc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 0,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [
+            {
+              "options": {
+                "pattern": "0",
+                "result": {
+                  "index": 0,
+                  "text": "0 Failure"
+                }
+              },
+              "type": "regex"
+            },
+            {
+              "options": {
+                "pattern": "1",
+                "result": {
+                  "index": 1,
+                  "text": "1 Failure"
+                }
+              },
+              "type": "regex"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 5,
+      "options": {
+        "barRadius": 0.15,
+        "barWidth": 0.93,
+        "fullHighlight": false,
+        "groupWidth": 0.84,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "failure",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "columns": [],
+          "data": "\"_id\",\"failure\",\"min\",\"25th_percentile\",\"50th_percentile\",\"75th_percentile\",\"max\",\"count\"\n\"ObjectId(\"\"6661f0cbab3aaa1769a602d8\"\")\",1,522,27781,38702,51965,71608,265\n\"ObjectId(\"\"6661f0cbab3aaa1769a602d9\"\")\",0,0,14652,22177,42155,87194,242923",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "csv",
+          "url": "https://github.com/matteo-conti-97/hard_disk_failure_data_processing/blob/main/results/query3.csv",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Quantiles",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "25th_percentile": 2,
+              "50th_percentile": 3,
+              "75th_percentile": 4,
+              "failure": 0,
+              "max": 5,
+              "min": 1
+            },
+            "renameByName": {
+              "failure": ""
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "25th_percentile"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "50th_percentile"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "75th_percentile"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "count"
+              },
+              {
+                "destinationType": "string",
+                "enumConfig": {
+                  "text": [
+                    "1",
+                    "0"
+                  ]
+                },
+                "targetField": "failure"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "max"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "min"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "failure",
+                "25th_percentile",
+                "50th_percentile",
+                "75th_percentile",
+                "max",
+                "min"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "bdo551wz4pddsc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 1,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.85,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "columns": [],
+          "data": "\"_id\",\"Timestamp\",\"Query\",\"File format\",\"Execution time (s)\"\n\"ObjectId(\"\"6661edcf04cdf4092125d0c5\"\")\",\"2024-06-06T17:11:40\",\"Query1\",\"Parquet\",11.939990997314453\n\"ObjectId(\"\"6661ede5b94ffc78bfc8b5fb\"\")\",\"2024-06-06T17:12:04\",\"Query1\",\"CSV\",21.30294704437256\n\"ObjectId(\"\"6661f056e42b87320e2ca77a\"\")\",\"2024-06-06T17:22:28\",\"Query2\",\"Parquet\",14.784262895584106\n\"ObjectId(\"\"6661f05ed9077256ea78365d\"\")\",\"2024-06-06T17:22:37\",\"Query2\",\"CSV\",7.107267141342163\n\"ObjectId(\"\"6661f0cd2b42733f7b3b7dd6\"\")\",\"2024-06-06T17:24:27\",\"Query3\",\"Parquet\",23.235679388046265\n\"ObjectId(\"\"6661f13a2b42733f7b3b7dd8\"\")\",\"2024-06-06T17:26:13\",\"Query3\",\"CSV\",104.2644715309143",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "csv",
+          "url": "https://github.com/matteo-conti-97/hard_disk_failure_data_processing/blob/main/results/performance.csv",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Performance",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "Execution time (s)"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Query",
+                "File format",
+                "Execution time (s)"
+              ]
+            }
+          }
+        },
+        {
+          "id": "groupingToMatrix",
+          "options": {
+            "columnField": "File format",
+            "emptyValue": "empty",
+            "rowField": "Query",
+            "valueField": "Execution time (s)"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Query\\File format": "Query"
+            }
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "bdo551wz4pddsc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "pattern": "0",
+                "result": {
+                  "index": 0,
+                  "text": "0 Failure "
+                }
+              },
+              "type": "regex"
+            },
+            {
+              "options": {
+                "pattern": "1",
+                "result": {
+                  "index": 1,
+                  "text": "1 Failure"
+                }
+              },
+              "type": "regex"
+            }
+          ],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 85
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 6,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "",
+          "values": true
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "10.4.3",
+      "targets": [
+        {
+          "columns": [],
+          "data": "\"_id\",\"failure\",\"min\",\"25th_percentile\",\"50th_percentile\",\"75th_percentile\",\"max\",\"count\"\n\"ObjectId(\"\"6661f0cbab3aaa1769a602d8\"\")\",1,522,27781,38702,51965,71608,265\n\"ObjectId(\"\"6661f0cbab3aaa1769a602d9\"\")\",0,0,14652,22177,42155,87194,242923",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_YESOREYERAM-INFINITY-DATASOURCE}"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "csv",
+          "url": "https://github.com/matteo-conti-97/hard_disk_failure_data_processing/blob/main/results/query3.csv",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Count",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "25th_percentile": 2,
+              "50th_percentile": 3,
+              "75th_percentile": 4,
+              "failure": 0,
+              "max": 5,
+              "min": 1
+            },
+            "renameByName": {
+              "failure": ""
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "25th_percentile"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "50th_percentile"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "75th_percentile"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "count"
+              },
+              {
+                "destinationType": "string",
+                "enumConfig": {
+                  "text": [
+                    "1",
+                    "0"
+                  ]
+                },
+                "targetField": "failure"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "max"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "min"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "failure",
+                "count"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "gauge"
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Results",
+  "uid": "fdo1vewh3hce8b",
+  "version": 1,
+  "weekStart": ""
+}
