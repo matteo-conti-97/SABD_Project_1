@@ -2,7 +2,6 @@ data/dataset/
 token_grafana
 report/report.aux
 report/report.log
-report/report.pdf
 report/report.synctex.gz
 report/report.fdb_latexmk
 report/report.fls
