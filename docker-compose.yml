@@ -12,6 +12,8 @@ services:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
     networks:
       - elt_cluster
+    profiles: [processing]
+
 
   mongo-express:
     image: mongo-express
@@ -27,6 +29,7 @@ services:
       - mongo
     networks:
       - elt_cluster
+    profiles: [processing]
   
   nifi:
     container_name: nifi
@@ -44,6 +47,7 @@ services:
       - elt_cluster
     depends_on:
       - namenode
+    profiles: [ingestion]
       
   namenode:
     build: ./Dockerfiles/hdfs/namenode
@@ -59,6 +63,7 @@ services:
       - namenode-data:/hadoop/dfs/name
     networks:
       - elt_cluster
+    profiles: [ingestion, processing]
 
   datanode1:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
@@ -73,6 +78,7 @@ services:
       - datanode1-data:/hadoop/dfs/data
     networks:
       - elt_cluster
+    profiles: [ingestion, processing]
 
   datanode2:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
@@ -87,6 +93,7 @@ services:
       - datanode2-data:/hadoop/dfs/data
     networks:
       - elt_cluster
+    profiles: [ingestion, processing]
 
   spark-master:
     #image: bitnami/spark:3.5.1
@@ -105,6 +112,7 @@ services:
     networks:
       - spark_network
       - elt_cluster
+    profiles: [processing]
 
   spark-worker:
     image: bitnami/spark:3.5.1
@@ -121,6 +129,7 @@ services:
     networks:
       - spark_network
       - elt_cluster
+    profiles: [processing]
 
   grafana:
     image: grafana/grafana-enterprise
@@ -137,6 +146,7 @@ services:
       - GF_INSTALL_PLUGINS=yesoreyeram-infinity-datasource
     networks:
       - elt_cluster
+    profiles: [processing]
 
 volumes:
   namenode-data:
