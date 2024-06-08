@@ -24,12 +24,14 @@ To verify the ingestion result look in HDFS Web UI available at http://localhost
 If you want to start only the ingestion containers you can use the “make up-processing”.
 
 You can easily run the queries using the MakeFile running the following commands:
-    - make query1
-    - make query2
-    - make query3
+- make query1
+- make query2
+- make query3
 
 # How to see results in MongoDB
-Se vuoi vedere i risultati dell'esecuzione delle query puoi usare mongo express andando a connetterti alla Web UI fornita http://localhost:8081 e visualizzare il database "results"
+If you want to see the results of query execution you can use mongo express by going to connect to the Web UI provided http://localhost:8081 and view the database “results”
+
+![mongo](https://github.com/matteo-conti-97/hard_disk_failure_data_processing/assets/30274870/9ef5788e-40ca-452c-a832-78ffdbd474d2)
 
 
 
