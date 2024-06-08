@@ -9,7 +9,7 @@ up-processing:
 up-ingestion:
 	docker compose --profile ingestion up -d --build
 up:
-	docker compose up -d --build
+	docker compose --profile all up -d --build
 data-sender:
 	python data_sender.py
 shut-down:
