@@ -9,6 +9,7 @@
 \usepackage{amssymb}
 \usepackage{float} % for H placement option
 \usepackage{listings}
+\usepackage[colorlinks=true, linkcolor=red, urlcolor=blue, citecolor=blue]{hyperref}
 \usepackage{xcolor}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -62,7 +63,7 @@ La colonna \textit{s9\_power\_on\_hours} contiene anche diversi valori nulli, le
 Inoltre la colonna \textit{vault\_id} contiene elementi il cui valore non è un intero bensì la stringa "vault\_id", anche questa volta le righe corrispondenti verranno eliminate in fase di preprocessamento.
 
 \section{Pipeline}
-Per la gestione dei dati relativi ai guasti dei dischi rigidi, è stata implementata una pipeline containerizzata il cui deploy è stato fatto tramite docker compose. La pipeline è composta da diverse componenti, ognuna delle quali svolge un compito specifico, in particolare sono stati utilizzati Apache NiFi per la data ingestion, HDFS per il data storage, Spark per il data processing e MongoDB per l'analytical data storage, di seguito verrano illustrati i dettagli di ciascuna componente.
+Per la gestione dei dati relativi ai guasti dei dischi rigidi, è stata implementata una pipeline containerizzata il cui deploy è stato fatto tramite docker compose. La pipeline è composta da diverse componenti, ognuna delle quali svolge un compito specifico, in particolare sono stati utilizzati Apache NiFi per la data ingestion, HDFS per il data storage, Spark per il data processing, MongoDB per l'analytical data storage e Grafana per la visualizzazione dei risultati. Di seguito verrano illustrati i dettagli di ciascuna componente.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{./res/pipeline.png}
@@ -110,11 +111,18 @@ Come data lake in cui memorizzare i dati a a seguito del preprocessamento effett
 \end{itemize}
 Non è stata utilizzata una struttura particolare per l'organizzazione dei file all'interno di HDFS, i file sono stati memorizzati tutti nella root directory.
 \subsection{Data Processing}
-Per il processamento dei dati e quindi l'esecuzione delle query è stato utilizzato il framework Spark, in particolare utilizzando la versione per python PySpark.Per queste query è stato utilizzato un cluster composto da uno spark master e quattro spark worker. Per farlo abbiamo utilizzato l'immagine bitami/spark nella versione 3.5.1. Per l'orchestrazione del cluster abbiamo utilizzato docker compose.
+Per il processamento dei dati e quindi l'esecuzione delle query è stato utilizzato il framework Spark, in particolare utilizzando la versione per python PySpark.Per queste query è stato utilizzato un cluster composto da uno spark master e quattro spark worker (Fig. \ref{fig:spark_cluster}). Per farlo abbiamo utilizzato l'immagine bitami/spark nella versione 3.5.1. Per l'orchestrazione del cluster abbiamo utilizzato docker compose.
 Il dataset filtrato è stato caricato dall'HDFS e i risultati delle query sono stati salvati in MongoDB utilizzando il connettore spark-mongodb.
 Le query sono state eseguite sia a partire dal file in formato CSV che dal file in formato Parquet per valutare le differenze prestazionali tra un formato basato su colonne e uno basato su righe.
 Per effettuare le query sono state utilizzate le API per i Dataframe e non quelli per gli RDD. 
 Inoltre dato che le query sono formate principalmente da trasformazioni, l'azione che scatenerebbe la lazy evaluation, e quindi l'effettiva esecuzione della query, sarebbe la scrittura del risultato su MongoDB. Tuttavia, la durata della scrittura dipende dalla grandezza del risultato della query, il quale è abbastanza eterogeneo, abbiamo quindi deciso di unificare la metodologia di acquisizione delle misure di prestazioni inserendo un'azione di show() prima della scrittura su MongoDB.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./res/spark_cluster.png}
+    \caption{Spark cluster}
+    \label{fig:spark_cluster}
+\end{figure}
 \subsubsection{Query 1}
 La query 1 prevede di calcolare per ogni giorno, per ogni vault (facendo riferimento al campo vault id), il numero totale di fallimenti, in particolare occorre determinare la lista di vault che hanno subito esattamente 4, 3 e 2 fallimenti.
 
@@ -158,8 +166,37 @@ Per organizzare i dati, è stata creata una collezione per ciascuna query, in cu
     \caption{Schema del database MongoDB.}
     \label{fig:mongo}
 \end{figure}
+\subsection{Visualizzazione}
+Per la visualizzazione dei risultati è stata utilizzata Grafana, la quale permette di creare dashboard personalizzate a partire da diversi tipi di sorgenti di dati. In particolare, è stata creata una dashboard in cui sono presenti vari pannelli che visualizzano alcuni aspetti dei risultati delle query e delle performance della loro esecuzione (Fig. \ref{fig:grafana_dashboard}).
+In particolare sono stati sviluppati i seguenti pannelli:
+\begin{itemize}
+    \item Un pannello che mostra i top 10 vault che hanno subito il maggior numero di fallimenti con il relativo numero di fallimenti. Derivante dalla query 2.
+    \item Un pannello che mostra i top 10 modelli di hard disk che hanno subito il maggior numero di fallimenti con il relativo numero di fallimenti. Derivante dalla query 2.
+    \item Un pannello che mostra la ripartizione percentuale di vault id che hanno subito 2, 3 e 4 fallimenti. Derivante dalla query 1.
+    \item Un pannello che mostra i vari quantili delle ore di funzionamento per i dischi che hanno subito fallimenti e per quelli che non hanno subito fallimenti. In modo da poter avere una idea di come sono distribuiti i dati. Derivante dalla query 3.
+    \item Un pannello che mostra il count dei fallimenti e dei non fallimenti totali su cui sono stati calcolati i quantili. Derivante dalla query 3.
+    \item Un pannello che mostra i tempi di esecuzione delle query a partire dai due formati di file, CSV e Parquet.
+\end{itemize}
+\begin{figure}[H]
+    \centerline{\includegraphics[width=0.5\textwidth]{res/grafana_dashboard.png}}
+    \caption{Dashboard di Grafana.}
+    \label{fig:grafana_dashboard}
+\end{figure}
 \subsection{Analisi delle prestazioni}
 L'analisi delle prestazioni è stata effettuata per ciascuna query, in particolare sono stati valutati i tempi di esecuzione delle query a partire dai due formati di file, CSV e Parquet, e sono stati confrontati i risultati ottenuti.
+Come detto in precedenza ci si aspetterebbe che il formato Parquet fosse più efficiente rispetto al formato CSV, in quanto essendo un formato basato su colonne, risulta essere più efficiente per le query di aggregazione.
+Tuttavia questo vantaggio sembra esserci solo per la query 1 e 3. Infatti nella query 2 i tempi di esecuzione sono minori per il formato CSV rispetto al formato Parquet (Fig. \ref{fig:performance_panel}).
+Questo comportamento potrebbe essere dovuto al fatto che la query 2 ad un certo punto necessita di un join tra due dataframe (Fig. \ref{fig:dag_query2}), e quindi il formato Parquet, che è basato su colonne, potrebbe essere meno efficiente rispetto al formato CSV, che è basato su righe, per questa operazione.
+
+\begin{figure}[H]
+    \centerline{\includegraphics[width=0.5\textwidth]{res/performance_panel.png}}
+    \caption{Pannello delle performance di Grafana.}
+    \label{fig:performance_panel}
+\end{figure}
+
+\section{Riferimenti}
+\href{https://github.com/matteo-conti-97/hard_disk_failure_data_processing}{Codice sorgente github}
+
 
 \vspace{12pt}
 \end{document}
