@@ -10,7 +10,13 @@ The queries are the following:
 2) Calculate the ranking of the 10 hard disk drive models that have suffered the most failures. The ranking must report the hard disk model and the total number of failures suffered by hard disks of that specific model. Next, calculate a second ranking of the 10 vaults that experienced the most failures. For each vault, report the number of failures and the list (without repetition) of models of hark disks subject to at least one failure.
 3) Calculate the minimum, 25th, 50th, 75th percentile, and maximum operating hours (field s9 power on hours) of hark disks that have experienced failures and hard disks that have not have experienced failures. Pay attention, the s9 power on hours field reports a cumulative, so the statistics required by the query must refer to the last useful day of detection for each specific hard disk (consider the use of the serial number field). In the output also indicate the total number of events used to calculate the statistics.
 
-For more details read [this](https://github.com/matteo-conti-97/hard_disk_failure_data_processing/blob/main/Traccia.pdf).
+For more details on queries read [this](https://github.com/matteo-conti-97/hard_disk_failure_data_processing/blob/main/Traccia.pdf).
+
+## What do you need
+To use the project you need the following things:
+- Docker
+- Dataset from the ACM DEBS 2024 conference
+- Python
 
 ## How to setup
 0) Open a terminal in project root directory which we call $PROJECT_DIR
@@ -53,5 +59,5 @@ Once you have launched the graphana container with docker compose connect to the
 ![grafana_dashboard](https://github.com/matteo-conti-97/hard_disk_failure_data_processing/assets/30274870/49275a82-ca9d-4a1f-9500-ab5edc1ae8c4)
 
 ## More details
-A full report on the work done is available [here]()
+A full report on the work done is available [here](https://github.com/matteo-conti-97/hard_disk_failure_data_processing/blob/main/report/report.pdf)
 
