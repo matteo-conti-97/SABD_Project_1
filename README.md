@@ -18,3 +18,4 @@ To verify the ingestion result look in HDFS Web UI available at http://localhost
 # How to use Grafana
 Once you have launched the graphana container with docker compose connect to the local web UI available at http://localhost:3000/ and then log in with the credentials username: “admin” password: “admin”. To view the dashboard simply go to the dashboards panel on the left and select “Results”
 
+![grafana_dashboard](https://github.com/matteo-conti-97/hard_disk_failure_data_processing/assets/30274870/49275a82-ca9d-4a1f-9500-ab5edc1ae8c4)
