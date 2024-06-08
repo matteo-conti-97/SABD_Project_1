@@ -34,6 +34,7 @@ matteo.conti97@students.uniroma2.eu
 \pagestyle{plain}
 
 \begin{abstract}
+    Questo studio presenta l'implementazione di una pipeline per il batch processing di dati di grandi dimensioni, finalizzata all'analisi dei fallimenti dei dischi rigidi. La pipeline, containerizzata e gestita tramite Docker Compose, utilizza Apache NiFi per l'ingestione dei dati, HDFS per lo storage, Spark per il processamento, MongoDB per l'archiviazione analitica e Grafana per la visualizzazione dei risultati. Il dataset analizzato, una versione ridotta di quello del Grand Challenge della conferenza ACM DEBS 2024, contiene informazioni su data di misurazione, identificativo del disco rigido, modello, ore di accensione e fallimenti. Tre query sono state eseguite per analizzare i dati e confrontare le prestazioni dei formati di file CSV e Parquet. L'analisi ha evidenziato che il formato Parquet, grazie alla sua struttura a colonne, risulta generalmente più efficiente nelle query di aggregazione rispetto al formato CSV. Tuttavia, eccezioni sono state rilevate nella query 2, dove le operazioni di join risultano più performanti con il formato CSV. I risultati delle query e le prestazioni sono stati visualizzati tramite dashboard in Grafana, offrendo una visione dettagliata dei fallimenti dei dischi rigidi e delle performance delle diverse query.
 \end{abstract}
 
 \section{Introduzione}
