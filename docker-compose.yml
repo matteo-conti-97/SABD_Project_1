@@ -130,7 +130,7 @@ services:
     networks:
       - spark_network
       - elt_cluster
-    profiles: [processing]
+    profiles: [processing, all]
 
   grafana:
     image: grafana/grafana-enterprise
