@@ -34,12 +34,12 @@ matteo.conti97@students.uniroma2.eu
 \pagestyle{plain}
 
 \begin{abstract}
-    Questo studio presenta l'implementazione di una pipeline per il batch processing di dati di grandi dimensioni, finalizzata all'analisi dei fallimenti dei dischi rigidi. La pipeline, containerizzata e gestita tramite Docker Compose, utilizza Apache NiFi per l'ingestione dei dati, HDFS per lo storage, Spark per il processamento, MongoDB per l'archiviazione analitica e Grafana per la visualizzazione dei risultati. Il dataset analizzato, una versione ridotta di quello del Grand Challenge della conferenza ACM DEBS 2024, contiene informazioni su data di misurazione, identificativo del disco rigido, modello, ore di accensione e fallimenti. Tre query sono state eseguite per analizzare i dati e confrontare le prestazioni dei formati di file CSV e Parquet. L'analisi ha evidenziato che il formato Parquet, grazie alla sua struttura a colonne, risulta generalmente più efficiente nelle query di aggregazione rispetto al formato CSV. Tuttavia, eccezioni sono state rilevate nella query 2, dove le operazioni di join risultano più performanti con il formato CSV. I risultati delle query e le prestazioni sono stati visualizzati tramite dashboard in Grafana, offrendo una visione dettagliata dei fallimenti dei dischi rigidi e delle performance delle diverse query.
+    Questo studio presenta l'implementazione di una pipeline per il batch processing di dati di grandi dimensioni, finalizzata all'analisi dei fallimenti dei dischi rigidi. La pipeline, containerizzata e gestita tramite Docker Compose, utilizza Apache NiFi per l'ingestion dei dati, HDFS per lo storage, Spark per il processamento, MongoDB per l'archiviazione dei risultati e Grafana per la visualizzazione di essi. Il dataset analizzato, una versione ridotta di quello del Grand Challenge della conferenza ACM DEBS 2024, contiene informazioni su data di misurazione, identificativo del disco rigido, modello, ore di accensione e fallimenti. Tre query sono state eseguite per analizzare i dati e confrontare le prestazioni dei formati di file CSV e Parquet. L'analisi ha evidenziato che il formato Parquet, grazie alla sua struttura a colonne e compressa, risulta generalmente più efficiente nelle query di aggregazione rispetto al formato CSV. Tuttavia, eccezioni sono state rilevate nella query 2. I risultati delle query e le prestazioni sono stati visualizzati tramite dashboard in Grafana, offrendo una visione dettagliata dei fallimenti dei dischi rigidi e delle performance delle diverse query.
 \end{abstract}
 
 \section{Introduzione}
 \subsection{Descrizione del problema}
-Il problema da affrontare consiste nell'eseguire il batch processing di dati di grandi dimensioni mediante l'uso di una pipeline basata su framework per Big Data. Nello specifico, l'obiettivo è analizzare un dataset contenente informazioni relative ai fallimenti dei dischi rigidi attraverso l'esecuzione di 3 query.
+Il problema da affrontare consiste nell'eseguire un processamento batch di un dataset mediante l'uso di una pipeline basata su framework per Big Data. Nello specifico, l'obiettivo è analizzare un dataset contenente informazioni relative ai fallimenti dei dischi rigidi attraverso l'esecuzione di 3 query.
 
 \subsection{Obiettivi}
 Gli obiettivi del progetto sono quelli di eseguire le query proposte e di valutare le prestazioni di esse a partire da due formati di file, CSV e Parquet. Il motivo della scelta di Parquet è perché essendo un formato basato su colonne, risulta essere più efficiente per le query di aggregazione e quindi in fase di progettazione analizzando le query ci è sembrato più adeguato utilizzarlo rispetto ad altri formati per righe.
@@ -56,7 +56,7 @@ Il dataset fornito è una versione ridotta di quello presentato nel Grand Challe
 \end{itemize}
 Esplorando il dataset si può notare un'ambiguità nella colonna \textit{s9\_power\_on\_hours}, essa contiene dei valori 0. Questi valori possono essere interpretati in due modi:
 \begin{itemize}
-    \item Il dato è errore di misurazione e quindi va eliminato
+    \item Il dato è un errore di misurazione e quindi va eliminato
     \item Il disco rigido è stato acceso per meno di un'ora al momento della misurazione
 \end{itemize}
 Date le seguenti considerazioni si è deciso di non eliminare i valori 0 e considerarli quindi validi. Questo andrà ad influenzare i risultati della query 3, in particolare questo sarà molto evidente per quanto riguarda il minimo delle ore di accensione.
@@ -74,11 +74,11 @@ Per la gestione dei dati relativi ai guasti dei dischi rigidi, è stata implemen
 \subsection{Data Ingestion}
 Per la data ingestion è stato utilizzato il framework Apache NiFi, il quale permette di creare dei flussi di dati a partire da diversi tipi di sorgente, definire delle operazioni di trasformazione su di essi ed andare a memorizzare il risultato delle trasformazioni in sink di vario genere. Nel nostro caso NiFi svolge le seguenti operazioni:
 \begin{enumerate}
-    \item Riceve, tramite HTTP, il file CSV contenente i dati relativi ai guasti dei dischi rigidi
+    \item Riceve, tramite HTTP, il file CSV contenente i dati relativi ai guasti dei dischi rigidi.
     \item Esegue una query SQL %(Fig. \ref{fig:nifi_query}) 
     per selezionare solamente le cinque colonne di interesse del CSV ed effettuare una pulizia dei dati, rimuovendo righe contenenti valori nulli o invalidi. 
-    \item Effettua l'assegnazione esplicita dello schema ai dati, se questo non viene fatto NiFi non riconosce correttamente il tipo di alcune colonne del dataset, interpretandole come delle strutture
-    \item Scrive i dati su HDFS in formato Parquet e CSV
+    \item Effettua l'assegnazione esplicita dello schema ai dati, se questo non viene fatto NiFi non riconosce correttamente il tipo di alcune colonne del dataset, interpretandole come delle strutture.
+    \item Scrive i dati su HDFS in formato Parquet e CSV.
 \end{enumerate}
 
 Per implementare il flusso NiFi (Fig. \ref{fig:nifi_flow}) sono stati utilizzati diversi processors e controller services, in particolare:
@@ -100,7 +100,7 @@ Per implementare il flusso NiFi (Fig. \ref{fig:nifi_flow}) sono stati utilizzati
 % \end{figure} 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{./res/nifi_flow.png}
+    \includegraphics[width=0.5\textwidth]{./res/nifi_flow.png}
     \caption{Nifi flow}
     \label{fig:nifi_flow}
 \end{figure} 
@@ -110,12 +110,12 @@ Per memorizzare i dati a a seguito del preprocessamento effettuato da parte di N
     \item 1 Namenode
     \item 2 Datanode
 \end{itemize}
-Non è stata utilizzata una struttura particolare per l'organizzazione dei file all'interno di HDFS, essi sono stati memorizzati tutti nella root directory.
+Non è stata utilizzata una struttura particolare per l'organizzazione dei file all'interno dell'HDFS, essi sono stati memorizzati tutti nella root directory.
 \subsection{Data Processing}
-Per il processamento dei dati, e quindi l'esecuzione delle query, è stato utilizzato il framework Apache Spark, in particolare utilizzando la libreria PySpark. Per il processamento è stato utilizzato un cluster composto da uno spark master e quattro spark worker (Fig. \ref{fig:spark_cluster}). Per implementare il cluster è stata utilizzata l'immagine bitami/spark nella versione 3.5.1.
+Per il processamento dei dati, e quindi l'esecuzione delle query, è stato utilizzato il framework Apache Spark, in particolare utilizzando la libreria PySpark. È stato utilizzato un cluster composto da uno spark master e quattro spark worker (Fig. \ref{fig:spark_cluster}). Per implementare il cluster è stata utilizzata l'immagine bitami/spark nella versione 3.5.1.
 Il dataset, filtrato, è stato caricato dall'HDFS ed i risultati delle query sono stati salvati in MongoDB utilizzando il connettore spark-mongodb.
 Le query sono state eseguite sia a partire dal file in formato CSV che dal file in formato Parquet per valutare le differenze prestazionali tra un formato basato su colonne e uno basato su righe.
-Per effettuare le query sono state utilizzate le API per i Dataframe e non quelli per gli RDD. 
+Per effettuare le query sono state utilizzate le API per i Dataframe e non quelle per gli RDD. 
 Inoltre dato che le query sono formate principalmente da trasformazioni, l'azione che scatenerebbe la lazy evaluation, e quindi l'effettiva esecuzione della query, sarebbe la scrittura del risultato su MongoDB; tuttavia la durata della scrittura dipende dalla grandezza del risultato della query, il quale è abbastanza eterogeneo, abbiamo quindi deciso di unificare la metodologia di acquisizione delle misure di prestazioni inserendo un'azione di show() prima della scrittura su MongoDB.
 \begin{figure}[H]
     \centering
@@ -126,7 +126,7 @@ Inoltre dato che le query sono formate principalmente da trasformazioni, l'azion
 \subsubsection{Query 1}
 La query 1 prevede di calcolare per ogni giorno, per ogni vault (campo \textit{vault\_id}), il numero totale di fallimenti, in particolare occorre determinare la lista di vault che hanno subito esattamente 4, 3 e 2 fallimenti.
 
-Per prima cosa è stato fatto il drop delle colonne inutili per la query, che in questo caso sono \textit{serial\_number}, \textit{model} e \textit{s9\_power\_on\_hours}, successivamente è stato fatto il group by per \textit{date} e \textit{vault\_id} e si è aggretato sulla somma di \textit{failure} (essendo i fallimenti rappresentati dai valori 0 e 1 la loro somma rappresenta il numero di fallimenti). Infine è stato effettuato un filtraggio che seleziona solo i vault che hanno subito un numero di fallimenti $\geq2$ e $\leq4$
+Per prima cosa è stato fatto il drop delle colonne inutili per la query, che in questo caso sono \textit{serial\_number}, \textit{model} e \textit{s9\_power\_on\_hours}. Successivamente è stato fatto il group by per \textit{date} e \textit{vault\_id} e si è aggretato sulla somma di \textit{failure} (essendo i fallimenti rappresentati dai valori 0 e 1 la loro somma rappresenta il numero di fallimenti). Infine è stato effettuato un filtraggio che seleziona solo i vault che hanno subito un numero di fallimenti $\geq2$ e $\leq4$. (Fig. \ref{fig:dag_query1})
 \begin{figure}[H]
     \centerline{\includegraphics[width=0.5\textwidth]{res/query1_dag.png}}
     \caption{DAG di alto livello della query 1}
@@ -136,31 +136,31 @@ Per prima cosa è stato fatto il drop delle colonne inutili per la query, che in
 \subsubsection{Query 2}
 La query 2 è composta di due parti:
 \begin{itemize}
-    \item Calcolare la classifica dei 10 modelli di hard disk che hanno subito il maggior numero di fallimenti, riportando il modello di hard disk e il numero totale di fallimenti subiti dagli hard disk di quello specifico modello
+    \item Calcolare la classifica dei 10 modelli di hard disk che hanno subito il maggior numero di fallimenti, riportando il modello di hard disk e il numero totale di fallimenti subiti dagli hard disk di quello specifico modello.
     \item Calcolare la classifica dei 10 vault che hanno registrato il maggior numero di
     fallimenti riportando, per ogni vault, il numero di fallimenti e la lista (senza ripetizioni) dei modelli di
-    hark disk soggetti ad almeno un fallimento
+    hark disk soggetti ad almeno un fallimento.
 \end{itemize}
-Anche in questo caso la prima cosa che viene fatta è il drop delle colonne inutili per la query, che in questo caso sono \textit{serial\_number}, \textit{s9\_power\_on\_hours} e \textit{date}, successivamente viene fatto un cache() per mantenere in memoria il dataframe ed evitare di doverlo costruire più volte, in quanto esso verrà utilizzato per entrambe le parti della query.
+Anche in questo caso la prima cosa che viene fatta è il drop delle colonne inutili per la query, che in questo caso sono \textit{serial\_number}, \textit{s9\_power\_on\_hours} e \textit{date}. Successivamente viene fatto un cache() per mantenere in memoria il dataframe ed evitare di doverlo costruire più volte, in quanto esso verrà utilizzato per entrambe le parti della query.
 Per la prima parte della query è stato fatto un group by per \textit{model} aggregando sulla somma di \textit{failure}, successivamente è stato fatto un ordinamento in ordine decrescente ed infine sono stati selezionati i primi 10 elementi.\\
-Per la seconda parte della query vengono generati due dataframe, il primo facendo una group by su \textit{vault\_id} ed aggregando sulla somma di \textit{failure} mentre il secondo filtrando i fallimenti pari a 1, facendo una group by su \textit{vault\_id} ed aggregando i \textit{model} in un set tramite collect\_set(). Successivamente i due dataframe vengono uniti tramite una join sul campo \textit{vault\_id}. Il dataframe ottenuto viene ordinato in modo decrescente sul campo \textit{failure} ed infine vengono selezionati i primi 10 elementi.
+Per la seconda parte della query vengono generati due dataframe, il primo facendo una group by su \textit{vault\_id} ed aggregando sulla somma di \textit{failure}, mentre il secondo filtrando i fallimenti pari a 1, facendo una group by su \textit{vault\_id} ed aggregando i \textit{model} in un set tramite collect\_set(). Successivamente i due dataframe vengono uniti tramite una join sul campo \textit{vault\_id}. Il dataframe ottenuto viene ordinato in modo decrescente sul campo \textit{failure} ed infine vengono selezionati i primi 10 elementi. (Fig. \ref{fig:dag_query2})
 \begin{figure}[H]
     \centerline{\includegraphics[width=0.5\textwidth]{res/query2_dag.png}}
     \caption{DAG di alto livello della query 2}
     \label{fig:dag_query2}
 \end{figure}
 \subsubsection{Query 3}
-La query 3 prevede di calcolare il minimo, 25-esimo, 50-esimo, 75-esimo percentile e massimo delle ore di funzionamento (campo \textit{s9\_power\_on\_hours}) degli hark disk che hanno subito fallimenti e degli hard disk che non hanno subito fallimenti, indicando anche il numero totale di eventi utilizzati per il calcolo delle statistiche.
-Dato che il campo \textit{s9\_power\_on\_hours} è un campo cumulativo, per ottenere il tempo di funzionamento è necessario guardare la data più recente disponibile.
-Anche in questo caso per prima cosa è stato fatto il drop delle colonne non necessarie che in questo caso sono \textit{model} e \textit{vault\_id}, successivamente è stato fatto un cache() per mantenere in memoria il dataframe ed evitare di doverlo costruire più volte, in quanto esso verrà utilizzato per due operazioni diverse. A questo punto dal dataframe originale ne vengono generati altri due, uno che contenenete solamente dischi che hanno subito fallimenti ed uno che contenente solamente dischi che non hanno subito fallimenti, questo viene fatto tramite una filter() sul campo \textit{failure}. Per entrambi i dataframe sono viene fatto un group by su \textit{serial\_number} e successivamente viene prelevato il valore più recente di \textit{s9\_power\_on\_hours} applicando alla colonna \textit{date} la funzione first(), la quale ne preleva la prima riga; questo è stato possibile in quanto il dataset è ordinato per data evitando di dover usare la funzione max() che avrebbe avuto un impatto maggiore sulle performance. Prima di eseguire il calcolo dei quantili è stato effettuato il drop delle colonne \textit{serial\_number} e \textit{date} in modo da tenere solamente il dato relativo delle ore di funzionamento per le failure 0 e 1 ed allegerire quindi le successive elaborazioni. Infine per il calcolo effettivo dei quantili è stata utilizzata la funzione approxQuantile() che permette di calcolare in modo efficiente i quantili, con grado di approssimazione configurabile; tramite essa è stato possibile calcolare anche il minimo ed il massimo che corrispondono rispettivamente al quanitle 0 e 100. Per generare il risultato della query è stato creato un nuovo dataframe contenente, per entrambi i dataframe (con e senza fallimenti), l'output di approxQuantile() e la count() delle righe utilizzate per il calcolo dei quantili.
+La query 3 prevede di calcolare il minimo, 25-esimo, 50-esimo, 75-esimo percentile e massimo delle ore di funzionamento (campo \textit{s9\_power\_on\_hours}) degli hark disk che hanno subito fallimenti e degli hard disk che non hanno subito fallimenti, indicando anche il numero totale di eventi utilizzati per il calcolo delle statistiche. 
+Dato che il campo \textit{s9\_power\_on\_hours} è un campo cumulativo, per ottenere il tempo di funzionamento è necessario guardare la data più recente disponibile. \\
+Anche in questo caso per prima cosa è stato fatto il drop delle colonne non necessarie che sono \textit{model} e \textit{vault\_id}. Successivamente è stato fatto un cache() per mantenere in memoria il dataframe ed evitare di doverlo costruire più volte, in quanto esso verrà utilizzato per due operazioni diverse. A questo punto dal dataframe originale ne vengono generati altri due, uno contenenete solamente dischi che hanno subito fallimenti e l'altro con solamente dischi che non hanno subito fallimenti; questo viene fatto tramite una filter() sul campo \textit{failure}. Per entrambi i dataframe viene fatto un group by su \textit{serial\_number} e successivamente viene prelevato il valore più recente di \textit{s9\_power\_on\_hours} applicando alla colonna \textit{date} la funzione first(), la quale ne preleva la prima riga; questo è stato possibile in quanto il dataset è ordinato per data evitando di dover usare la funzione max() che avrebbe avuto un impatto maggiore sulle performance. Prima di eseguire il calcolo dei quantili è stato effettuato il drop delle colonne \textit{serial\_number} e \textit{date} in modo da tenere solamente il dato relativo delle ore di funzionamento per le failure 0 e 1 ed allegerire, in questo modo, le successive elaborazioni. Infine per il calcolo effettivo dei quantili è stata utilizzata la funzione approxQuantile() che permette di calcolare in modo efficiente i quantili, con grado di approssimazione configurabile; tramite essa è stato possibile calcolare anche il minimo ed il massimo che corrispondono rispettivamente al quanitle 0 e 100. Per generare il risultato della query è stato creato un nuovo dataframe contenente, per entrambi i dataframe precedenti (con e senza fallimenti), l'output di approxQuantile() e la count() delle righe utilizzate per il calcolo dei quantili.
 \begin{figure}[H]
     \centerline{\includegraphics[width=0.5\textwidth]{res/query3_dag.png}}
     \caption{DAG di alto livello della query 3}
     \label{fig:dag_query3}
 \end{figure}
 \subsection{Analytical Data Storage}
-I risultati delle query sono stati memorizzati in un database a documento, in particolare MongoDB (Fig. \ref{fig:mongo}).
-Per organizzare i dati, è stata creata una collezione per ciascuna query, in cui ogni documento rappresenta una riga dei risultati ottenuti dalla query stessa. Inoltre, è stata creata un'altra collezione che contiene le performance, in particolare vengono riportati il timestamp dell'esperimento, la query, il formato del dataset su cui la query è stata eseguita ed il tempo di esecuzione della query stessa.
+I risultati delle query sono stati memorizzati in un database a documento, in particolare MongoDB.
+Per organizzare i dati, è stata creata una collezione per ciascuna query (Fig. \ref{fig:mongo}), in cui ogni documento rappresenta una riga dei risultati ottenuti dalla query stessa. Inoltre, è stata creata un'altra collezione che contiene le performance, in particolare vengono riportati il timestamp dell'esperimento, la query, il formato del dataset su cui la query è stata eseguita ed il tempo di esecuzione della query stessa.
 \begin{figure}[H]
     \centerline{\includegraphics[width=0.5\textwidth]{res/mongo.png}}
     \caption{Schema del database MongoDB.}
@@ -171,9 +171,9 @@ Per la visualizzazione dei risultati è stato utilizzato il framework Grafana, i
 In particolare sono stati sviluppati i seguenti pannelli:
 \begin{itemize}
     \item Un pannello che mostra i top 10 vault che hanno subito il maggior numero di fallimenti con il relativo numero di fallimenti. Derivante dalla query 2.
-    \item Un pannello che mostra i top 10 modelli di hard disk che hanno subito il maggior numero di fallimenti con il relativo numero di fallimenti. Derivante dalla query 2.
+    \item Un pannello che mostra i top 10 modelli di hard disk che hanno subito il maggior numero di fallimenti con il valore. Derivante dalla query 2.
     \item Un pannello che mostra la ripartizione percentuale di vault id che hanno subito 2, 3 e 4 fallimenti. Derivante dalla query 1.
-    \item Un pannello che mostra i vari quantili delle ore di funzionamento per i dischi che hanno subito fallimenti e per quelli che non hanno subito fallimenti. In modo da poter avere una idea di come sono distribuiti i dati. Derivante dalla query 3.
+    \item Un pannello che mostra i vari quantili delle ore di funzionamento per i dischi che hanno subito fallimenti e per quelli che non hanno subito fallimenti. In modo da poter visualizzare come sono distribuiti i dati. Derivante dalla query 3.
     \item Un pannello che mostra il count dei fallimenti e dei non fallimenti totali su cui sono stati calcolati i quantili. Derivante dalla query 3.
     \item Un pannello che mostra i tempi di esecuzione delle query sui due formati di file, CSV e Parquet.
 \end{itemize}
@@ -184,9 +184,9 @@ In particolare sono stati sviluppati i seguenti pannelli:
 \end{figure}
 \subsection{Analisi delle prestazioni}
 L'analisi delle prestazioni è stata effettuata per ciascuna query, in particolare sono stati valutati i tempi di esecuzione delle query sui due formati di file, CSV e Parquet, e sono stati confrontati i risultati ottenuti.
-Come detto in precedenza ci si aspetta che il formato Parquet sia più efficiente rispetto al formato CSV, in quanto essendo un formato basato su colonne, risulta essere più efficiente per le query di aggregazione.
-Tuttavia questo vantaggio sembra esserci solo per la query 1 e 3. Infatti nella query 2 i tempi di esecuzione sono minori utilizzando il formato CSV rispetto al formato Parquet (Fig. \ref{fig:performance_panel}).
-Questo comportamento potrebbe essere dovuto al fatto che nella query 2 viene eseguita una operazione di un join tra due dataframe (Fig. \ref{fig:dag_query2}), e quindi il formato Parquet, che è basato su colonne, potrebbe essere meno efficiente rispetto al formato CSV, che è basato su righe, per questa operazione.
+Come detto in precedenza ci si aspetta che il formato Parquet sia più efficiente rispetto al formato CSV, in quanto essendo un formato basato su colonne, dovrebbe avere un vantaggio per le query di aggregazione.
+Tuttavia questo vantaggio sembra esserci solo per la query 1 e 3. Infatti nella query 2 i tempi di esecuzione sono minori utilizzando il formato CSV (Fig. \ref{fig:performance_panel}).
+Questo comportamento potrebbe essere dovuto al fatto che nella query 2 viene eseguita una operazione di join tra due dataframe (Fig. \ref{fig:dag_query2}), e quindi il formato Parquet, che è basato su colonne, potrebbe essere meno efficiente rispetto al formato CSV, che è basato su righe, per questa operazione.
 
 \begin{figure}[H]
     \centerline{\includegraphics[width=0.5\textwidth]{res/performance_panel.png}}
