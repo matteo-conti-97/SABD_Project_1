@@ -20,11 +20,15 @@ To use the project you need the following things:
 
 ## How to setup
 0) Open a terminal in project root directory which we call $PROJECT_DIR
-1) Run command "docker compose up" or "make up" and wait startup of all containers
-2) In your browser access to Nifi Web UI at https://localhost:8443/nifi and perform login with the credentials specified in docker-compose.yml
-3) Upload Nifi template file available at $PROJECT_DIR/Dockerfiles/nifi/templates/progetto_1.4.xml or Nifi JSON flow file available at $PROJECT_DIR/Dockerfiles/nifi/templates/progetto_1.4.json
-4) Start all Nifi processors if you want to ingest data in HDFS with both csv and parquet format or only the processors in one of the two branches if you want only one format
-5) To connect HDFS and Spark use port 8020
+1) Run command "docker compose --profile all up" or "make up" and wait the startup of all containers
+2) From browser access to Nifi web UI at https://localhost:8443/nifi and perform login with the credentials specified in docker-compose.yml
+3) Upload Nifi template file available at $PROJECT_DIR/Dockerfiles/nifi/templates/progetto_1.4.xml, to do so right mouse click on a blank space of Nifi UI and select "upload template" then drag and drop from the template icon in the UI to use it.
+3) Start all the Nifi controller services needed for the processors, to do so right mouse click on a blank space of Nifi UI and select "configure" then select the tab "controller services" and enable all services.
+4) Start all Nifi processors if you want to ingest data in HDFS with both CSV and Parquet formats or only the processors in one of the two branches if you want only one format, to do so right mouse click on a processor and select "start"
+5) To verify that HDFS is up access the web UI at  http://localhost:9870
+6) To verify that Spark is up access the web UI at http://localhost:8080 and verify that all workers are connected
+7) To verify that MongoDB is up access the Mongo Express web UI at http://localhost:8081
+8) To verify that Grafana is up access the web UI at http://localhost:3000/login
 
 
 ## How to ingest data
@@ -33,15 +37,16 @@ If you want to start only the ingestion containers you can use the “make up-in
 0) Copy the data CSV file in $PROJECT_DIR/data/dataset and make sure it's named raw_data_medium-utv_sorted.csv
 1) Do one of this things:
     - Run the python script data_sender.py available at $PROJECT_DIR
-    - open a terminal in $PROJECT_DIR/data/dataset and run the command "curl -X POST raw_data_medium-utv_sorted.csv http://localhost:5200/listener
-    - Run "make data-sender"
+    - Open a terminal in $PROJECT_DIR/data/dataset and run the command "curl -X POST raw_data_medium-utv_sorted.csv http://localhost:5200/listener
+    - Open a terminal in $PROJECT_DIR and run "make data-sender" 
 
-To verify the ingestion result look in HDFS Web UI available at http://localhost:9870 in the browse "filesystem" section or check the progression status of the Nifi processors in Nifi Web UI available at https://localhost:8443/nifi
+To check the progression status of the Nifi processors in Nifi Web UI available at https://localhost:8443/nifi.
+To verify the ingestion result look in HDFS Web UI available at http://localhost:9870 in the browse "filesystem" section, if you activated both Nifi branches there should be 2 files disk_data_filtered.parquet and disk_data_filtered.csv
 
 ## How to processing data
 If you want to start only the ingestion containers you can use the “make up-processing”.
 
-You can easily run the queries using the MakeFile running the following commands:
+You can easily run the queries using the Makefile in $PROJECT_DIR running the following commands:
 - make query1
 - make query2
 - make query3
