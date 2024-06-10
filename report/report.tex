@@ -10,6 +10,7 @@
 \usepackage{float} % for H placement option
 \usepackage{listings}
 \usepackage[colorlinks=true, linkcolor=red, urlcolor=blue, citecolor=blue]{hyperref}
+\usepackage{minted}
 \usepackage{xcolor}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -117,6 +118,11 @@ Il dataset, filtrato, è stato caricato dall'HDFS ed i risultati delle query son
 Le query sono state eseguite sia a partire dal file in formato CSV che dal file in formato Parquet per valutare le differenze prestazionali tra un formato basato su colonne e uno basato su righe.
 Per effettuare le query sono state utilizzate le API per i Dataframe e non quelle per gli RDD. 
 Inoltre dato che le query sono formate principalmente da trasformazioni, l'azione che scatenerebbe la lazy evaluation, e quindi l'effettiva esecuzione della query, sarebbe la scrittura del risultato su MongoDB; tuttavia la durata della scrittura dipende dalla grandezza del risultato della query, il quale è abbastanza eterogeneo, abbiamo quindi deciso di unificare la metodologia di acquisizione delle misure di prestazioni inserendo un'azione di show() prima della scrittura su MongoDB.
+Il processamento è stato fatto 
+
+
+
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{./res/spark_cluster.png}
@@ -184,7 +190,18 @@ In particolare sono stati sviluppati i seguenti pannelli:
 \end{figure}
 \subsection{Analisi delle prestazioni}
 \subsubsection{Configurazione ambiente}
-%TODO
+\char200{} \\
+Risorse hardware
+\begin{minted}[autogobble, fontsize=\scriptsize, frame=lines]{text}
+    Processors: AMD Ryzen™ 5 7530U with Radeon™ Graphics × 12
+    Memory: 16.0 GiB of RAM
+    Graphics Processor: AMD Radeon™ Graphics
+\end{minted}
+Risorse Docker
+\begin{minted}[autogobble, fontsize=\scriptsize, frame=lines]{text}
+    Processors: 6 core
+    Memory: 8 GiB of RAM
+\end{minted}
 \subsubsection{Risultati}
 L'analisi delle prestazioni è stata effettuata per ciascuna query, in particolare sono stati valutati i tempi di esecuzione delle query sui due formati di file, CSV e Parquet, e sono stati confrontati i risultati ottenuti.
 Come detto in precedenza ci si aspetta che il formato Parquet sia più efficiente rispetto al formato CSV, in quanto essendo un formato basato su colonne, dovrebbe avere un vantaggio per le query di aggregazione.
