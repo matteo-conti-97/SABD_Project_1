@@ -1,4 +1,4 @@
-\documentclass[aspectratio=169,t,xcolor=table]{beamer}
+\documentclass[13pt,aspectratio=169,t,xcolor=table]{beamer}
 \usepackage[utf8]{inputenc}
 
 \usepackage{booktabs} 
@@ -23,7 +23,7 @@
 %----------------------- Primary Definitions -----------------%
 
 % This command set the default Color, is also possible to choose a custom color
-\setPrimaryColor{UFGBlue} 
+\setPrimaryColor{TorVergataGreen} 
 
 % First one is logo in title slide (we recommend use a horizontal image), and second one is the logo used in the remaining slides (we recommend use a square image)
 \setLogos{lib/logos/LOGO-ATENEO_BIANCO_20230308.png}{lib/logos/LOGO-ATENEO_Variante1_Bianco_20230307.png} 
@@ -32,13 +32,18 @@
 % -------------------------------------- Title Slide Information
 \begin{document}
 \title[Inf UFG]{Hard Disk Failure Data Processing}
-\subtitle{Corso di Sistemi e Architetture per Big Data}
+\subtitle{Corso di Sistemi ed Architetture per Big Data}
 
-\author{Luca Falasca \and Matteo Conti}
+\author{
+    \begin{tabular}{c c}
+    Luca Falasca & Matteo Conti \\
+    0334722 & 0323728
+  \end{tabular}
+}
 
 \institute[UFG] % (optional)
 {
-  Batch processing - Progetto 1
+  Progetto 1 - Batch processing
 }
 \date{2024}
 %-----------------------The next statement creates the title page.
@@ -49,77 +54,42 @@
 \setLayout{vertical} % This command define the layout. 'vertical' can be replace with 'horizontal', 'blank, 'mainpoint', 'titlepage'
 
 \begin{frame}
-    \frametitle{Table of Contents}
+    \frametitle{Indice}
     \tableofcontents
 \end{frame}
 %---------------------------------------------------------
 
 
+%---------------------INTRODUZIONE---------------------------
+\section{Introduzione}
+\subsection{Contesto}
 %---------------------------------------------------------Slide 2
-\section{Common presentation elements}
-
-\subsection{Box}
-
 \setLayout{vertical}
-\begin{frame}{Example on using box}
-
-    \footnotesize
-    
-    \begin{ex}
-        Em uma versão da linguagem BASIC, o nome de uma variável é uma sequência de um ou dois caracteres alfanuméricos, em que letras maiúsculas e minúsculas não são distinguidas. Além disso, um nome de variável deve começar com uma letra e deve ser diferente das cinco sequências de dois caracteres reservadas para o uso de comandos. Quantos nomes diferentes de variáveis são possíveis nesta versão do BASIC?
-    \end{ex}
-    
-    \begin{block}{Solução}
-        Pela regra da soma, $V=V_1+V_2$. Como as variáveis só podem começar com letras, temos que $V_1=26$. Pela regra do produto, há $26\cdot 36=936$ sequências de tamanho $2$ que comecem com uma letra e terminam com um caracter alfanumérico. Porém, não se deve usar $5$ variáveis reservadas. Assim, $V_2=26\cdot 36-5=931$. Logo, há $V=V_1+V_2 = 26+931=957$ nomes diferentes para variáveis nesta versão do BASIC.
-    \end{block}
-
-\end{frame}
-%---------------------------------------------------------
-
-
-%--------------------------------------------------------- Slide 3
-\subsection{Table}
-
-\begin{frame}{Example on using table}
-
-    \begin{table}[]
-        \centering
-        \caption{\label{tab:1}Countries and their codes}
-        
-        \renewcommand{\arraystretch}{1.5}
-        \setlength{\tabcolsep}{10pt}
-        
-        {\rowcolors{2}{}{LightGray!10}
-            \begin{tabular}{ p{3cm}p{3cm}p{3cm}  }
-                \toprule 
-                \textbf{Country Name} & \textbf{Code 2} & \textbf{Code 3} \\
-                \midrule
-                Afghanistan & AF &AFG \\
-                Aland Islands & AX   & ALA \\
-                Albania &AL & ALB \\
-                Algeria    &DZ & DZA \\
-                \bottomrule
-            \end{tabular}
-        }
-    \end{table}
-    
-\end{frame}
-%---------------------------------------------------------
-
-\subsection{Image}
-
-%--------------------------------------------------------- Slide 4
-\begin{frame}{Example on using image}
-
+\begin{frame}{Introduzione-Contesto}
+    \footnotesize   
+    Il progetto verte sulla realizzazione di una pipeline di elaborazione dati per la gestione di un dataset contenente informazioni riguardanti il monitoraggio dei dischi rigidi installati in un cluster di un cloud provider. 
+    \vspace{1cm}
     \begin{figure}
-        \centering
-        \includegraphics[width=.9\textwidth]{../report/res/grafana_dashboard.png}
-        \caption{Template's Layouts.}
-        \label{fig:layouts}
+        \raggedright
+        \hspace{2cm}
+        \includegraphics[width=.75\textwidth]{res/intro_icon.png}
     \end{figure}
-    
 \end{frame}
 %---------------------------------------------------------
+
+\subsection{Obiettivi}
+\subsection{Dataset}
+
+%---------------------PIPELINE---------------------------
+\section{Pipeline}
+\subsection{Data ingestion}
+\subsection{Data storage}
+\subsection{Data processing}
+\subsection{Analytical data storage}
+\subsection{Data visualization}
+
+%---------------------SOLUZIONE---------------------------
+\section{Conclusioni}
 
 
 %--------------------------------------------------------- Slide 5
@@ -211,36 +181,6 @@
     \end{itemize}
 \end{frame}
 %---------------------------------------------------------
-
-\section{Thanks example}
-%---------------------------------------------------------Slide 9
-\setLayout{blank}
-\begin{frame}
-    
-    \centering
-    \vspace{2cm}
-    
-    \textbf{\Huge Thanks}
-    
-    \ \\
-    
-    \textbf{Doubts and Suggestions}
-    \ \\
-    
-    \text{\footnotesize altinodantas@gmail.com or deuslirio.junior@gmail.com}
-    
-    \vspace{2cm}
-    \begin{figure}
-        \centering
-        \begin{subfigure}{0.2\textwidth}
-            \centering
-            \includegraphics[height=1cm]{lib/logos/LOGO-ATENEO_BIANCO_20230308.png}
-        \end{subfigure}%
-        \qquad 
-      
-    \end{figure}
-    
-\end{frame}
 
 %---------------------------------------------------------Slide 10
 \setLayout{titlepage}
