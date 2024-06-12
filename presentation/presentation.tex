@@ -61,8 +61,8 @@
 \end{frame}
 %---------------------------------------------------------
 
-
 %---------------------INTRODUZIONE---------------------------
+\section{Introduzione}
 %---------------------------------------------------------Slide 2
 \setLayout{mainpoint}
 \setBGColor{TorVergataGreen}
@@ -71,7 +71,6 @@
 \end{frame}
 %---------------------------------------------------------
 
-\section{Introduzione}
 \subsection{Obbiettivi}
 %---------------------------------------------------------Slide 3
 \setLayout{vertical}
@@ -111,8 +110,8 @@
 %---------------------------------------------------------
 
 %---------------------PIPELINE---------------------------
+\section{Pipeline}
 %---------------------------------------------------------Slide 5
-
 \setLayout{mainpoint}
 \setBGColor{TorVergataGreen}
 \begin{frame}{}
@@ -120,7 +119,6 @@
 \end{frame}
 %---------------------------------------------------------
 
-\section{Pipeline}
 %---------------------------------------------------------Slide 6
 \setLayout{vertical}
 \begin{frame}{Pipeline}
@@ -137,6 +135,7 @@
     \end{adjustbox}
 \end{frame}
 %---------------------------------------------------------
+
 \subsection{Data ingestion}
 %---------------------------------------------------------Slide 7
 \begin{frame}{Data ingestion-Apache NiFi}
@@ -159,32 +158,30 @@
     \end{columns}
 \end{frame}
 %---------------------------------------------------------
+
 \subsection{Data storage}
+%---------------------------------------------------------Slide 8
 \begin{frame}{Data storage-HDFS}
     Per lo storage del dataset filtrato è stato utilizzato HDFS, non è stata utilizzata una particolare struttura del filesystem, in particolare i dati sono stati memorizzati nella root directory
-    \begin{adjustbox}{margin=0cm 0cm 0cm 0.8cm, center} % left, bottom, right, top
+    \begin{adjustbox}{margin=0cm 0cm 0cm 0.7cm, center} % left, bottom, right, top
         \includegraphics[width=.6\textwidth]{res/hdfs_cluster.png}
     \end{adjustbox}
 \end{frame}
-%---------------------------------------------------------Slide 8
+%---------------------------------------------------------
 
 \subsection{Data processing}
-%---------------------------------------------------------
+%---------------------------------------------------------Slide 9
 \begin{frame}{Data Processing-Apache Spark}
     \begin{columns}
-    
         \column{0.5\textwidth}
             Per il processamento delle query è stato utilizzato \textbf{Apache Spark}
-        
         \column{0.5\textwidth}
             \begin{minipage}{0.5\textwidth}
                 \raggedleft
                 \includegraphics[width=.9\textwidth]{res/spark_icon.png}
             \end{minipage}
     \end{columns}
-
     \vspace{0.5cm}
-    
     \begin{itemize}
         \item Cluster formato da 1 nodo master e 4 nodi worker
         \item Replicazione docker compose
@@ -192,19 +189,19 @@
     \begin{adjustbox}{margin=0.5cm, center}
         \includegraphics[width=0.7\textwidth]{res/spark_cluster.png}
     \end{adjustbox}
-
-
 \end{frame}
+%----------------------------------------------------------
 
-%---------------------------------------------------------
+%--------------------------------------------------------- Slide 10
 \begin{frame}{Data Processing-Query 1}
     \textbf{Q1:} calcolare per ogni giorno, per ogni vault, il numero totale di fallimenti, in particolare determinare la lista di vault che hanno subito esattamente 4, 3 e 2 fallimenti
     \begin{adjustbox}{margin=0cm 0cm 0cm 2cm, center}
         \includegraphics[width=1\textwidth]{res/query1_dag.png}
     \end{adjustbox}
 \end{frame}
-
 %---------------------------------------------------------
+
+%---------------------------------------------------------Slide 11
 \begin{frame}{Data Processing-Query 2}
     \textbf{Q2.1:} 
     Calcolare la classifica dei 10 modelli di hard disk che hanno subito il maggior numero di fallimenti, riportando il modello di hard disk e il numero totale di fallimenti subiti dagli hard disk di quello specifico modello\\ 
@@ -215,18 +212,19 @@
         \includegraphics[width=1\textwidth]{res/query2_dag.png}
     \end{adjustbox}
 \end{frame}
+%----------------------------------------------------------
 
-%---------------------------------------------------------
+%---------------------------------------------------------Slide 12
 \begin{frame}{Data Processing-Query 3}
     \textbf{Q3:} Calcolare il minimo, 25-esimo, 50-esimo, 75-esimo percentile e massimo delle ore di funzionamento hark disk che hanno subito fallimenti e degli hard disk che non hanno subito fallimenti, indicando anche il numero totale di eventi utilizzati per il calcolo delle statistiche che hanno subito esattamente 4, 3 e 2 fallimenti
     \begin{adjustbox}{margin=0cm 0cm 0cm 0.5cm, center}
         \includegraphics[width=1\textwidth]{res/query3_dag.png}
     \end{adjustbox}
 \end{frame}
+%----------------------------------------------------------
 
-%-------------------------------------------------------------
+%-------------------------------------------------------------Slide 13
 \subsection{Analytical data storage}
-
 \begin{frame}{Analytical data storage-MongoDB}
     \begin{columns}
     
@@ -241,7 +239,6 @@
                 \includegraphics[width=0.8\textwidth]{res/mongodb_icon.png}
             \end{minipage}
     \end{columns}
-
     \vspace{0.5cm}
     \begin{columns}
         \column{0.5\textwidth}
@@ -260,21 +257,20 @@
             \end{minipage}
     \end{columns}
 \end{frame}
+%----------------------------------------------------------
 
+%---------------------------------------------------------Slide 14
 \subsection{Data visualization}
 \begin{frame}{Data visualization-Grafana}
     \begin{columns}
-        
         \column{0.6\textwidth}
             Per la visualizzazione dei dati è stato utilizzato \textbf{Grafana}
-        
         \column{0.4\textwidth}
             \begin{minipage}{0.5\textwidth}
                 \raggedleft
                 \includegraphics[width=0.8\textwidth]{res/grafana_icon.png}
             \end{minipage}
     \end{columns}
-
     \vspace{0.5cm}
     \begin{columns}
         \column{0.5\textwidth}
@@ -293,15 +289,21 @@
             \end{minipage}
     \end{columns}
 \end{frame}
-
+%----------------------------------------------------------
 
 %---------------------CONCLUSIONI---------------------------
-
+\section{Conclusioni}
+%---------------------------------------------------------Slide 15
+\setLayout{mainpoint}
+\setBGColor{TorVergataGreen}
 \begin{frame}{}
     \frametitle{Conclusioni}
 \end{frame}
-\section{Conclusioni}
+%---------------------------------------------------------
+
+\setLayout{vertical}
 \subsection{Risultati}
+%---------------------------------------------------------Slide 16
 \begin{frame}{Risultati-Query1}
     \begin{minipage}{0.9\textwidth}
         \begin{adjustbox}{margin=1cm 0cm 1.5cm 0cm, center}
@@ -309,7 +311,9 @@
         \end{adjustbox}
     \end{minipage}
 \end{frame}
+%---------------------------------------------------------
 
+%---------------------------------------------------------Slide 17
 \begin{frame}{Risultati-Query2}
     \begin{minipage}{0.9\textwidth}
         \begin{adjustbox}{margin=1cm 0cm 1.5cm 0cm, center}
@@ -317,7 +321,9 @@
         \end{adjustbox}
     \end{minipage}
 \end{frame}
+%---------------------------------------------------------
 
+%---------------------------------------------------------Slide 18
 \begin{frame}{Risultati-Query2}
     \begin{minipage}{0.9\textwidth}
         \begin{adjustbox}{margin=1cm 0cm 1.5cm 0cm, center}
@@ -325,7 +331,9 @@
         \end{adjustbox}
     \end{minipage}
 \end{frame}
+%---------------------------------------------------------
 
+%---------------------------------------------------------Slide 19
 \begin{frame}{Risultati-Query3}
     \begin{minipage}{0.9\textwidth}
         \begin{adjustbox}{margin=1cm 0cm 1.5cm 0cm, center}
@@ -333,7 +341,9 @@
         \end{adjustbox}
     \end{minipage}
 \end{frame}
+%---------------------------------------------------------
 
+%---------------------------------------------------------Slide 20
 \begin{frame}{Risultati-Query3}
     \begin{minipage}{0.9\textwidth}
         \begin{adjustbox}{margin=1cm 0cm 1.5cm 0cm, center}
@@ -341,7 +351,23 @@
         \end{adjustbox}
     \end{minipage}
 \end{frame}
+%---------------------------------------------------------
 
 \subsection{Performance}
+%---------------------------------------------------------Slide 21
+\begin{frame}{Performance}
+    \begin{minipage}{0.9\textwidth}
+        \begin{adjustbox}{margin=0cm 0cm 0cm 0cm, center}
+            \includegraphics[width=1\textwidth]{res/performance_panel.png}
+        \end{adjustbox}
+    \end{minipage}
+\end{frame}
+%---------------------------------------------------------
 
+%---------------------------------------------------------
+\setLayout{mainpoint}
+\begin{frame}{}
+    \frametitle{Grazie per l'attenzione}
+\end{frame}
+%---------------------------------------------------------
 \end{document}
