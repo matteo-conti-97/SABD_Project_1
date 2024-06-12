@@ -3,6 +3,7 @@
 
 \usepackage{booktabs} 
 \usepackage{subcaption}
+\usepackage{adjustbox}
 
 \usetheme{Ufg}
 
@@ -122,9 +123,17 @@
 %---------------------------------------------------------Slide 6
 \setLayout{vertical}
 \begin{frame}{Pipeline}
-    \begin{figure}
-        \includegraphics[width=.8\textwidth]{res/pipeline.png}
-    \end{figure}
+    La pipeline di elaborazione dati è stata containerizzata e deployata tramite docker compose ed è composta da cinque componenti:
+    \begin{itemize}
+        \item Data ingestion
+        \item Data storage
+        \item Data processing
+        \item Analytical data storage
+        \item Data visualization
+    \end{itemize}
+    \begin{adjustbox}{margin=0.5cm 0cm 0cm 0.58cm, center} % left, bottom, right, top 
+        \includegraphics[width=.99\textwidth]{res/pipeline.png}
+    \end{adjustbox}
 \end{frame}
 %---------------------------------------------------------
 \subsection{Data ingestion}
