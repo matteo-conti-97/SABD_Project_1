@@ -161,7 +161,7 @@
 %---------------------------------------------------------
 \subsection{Data storage}
 \begin{frame}{Data storage-HDFS}
-    Per lo storage del dataset filtrato è stato utilizzato HDFS, non è stata utilizzata una particolare struttura del filesystem, in particolare i dati sono stati memorizzati nella root directory.
+    Per lo storage del dataset filtrato è stato utilizzato HDFS, non è stata utilizzata una particolare struttura del filesystem, in particolare i dati sono stati memorizzati nella root directory
 \end{frame}
 %---------------------------------------------------------Slide 8
 
@@ -171,7 +171,7 @@
     \begin{columns}
     
         \column{0.5\textwidth}
-            Per il processamento delle query è stato utilizzato \textbf{Apache Spark}.
+            Per il processamento delle query è stato utilizzato \textbf{Apache Spark}
         
         \column{0.5\textwidth}
             \begin{minipage}{0.5\textwidth}
@@ -195,7 +195,7 @@
 
 %---------------------------------------------------------
 \begin{frame}{Data Processing-Query 1}
-    \textbf{Q1:} calcolare per ogni giorno, per ogni vault, il numero totale di fallimenti, in particolare determinare la lista di vault che hanno subito esattamente 4, 3 e 2 fallimenti.
+    \textbf{Q1:} calcolare per ogni giorno, per ogni vault, il numero totale di fallimenti, in particolare determinare la lista di vault che hanno subito esattamente 4, 3 e 2 fallimenti
     \begin{adjustbox}{margin=0cm 0cm 0cm 2cm, center}
         \includegraphics[width=1\textwidth]{res/query1_dag.png}
     \end{adjustbox}
@@ -204,7 +204,7 @@
 %---------------------------------------------------------
 \begin{frame}{Data Processing-Query 2}
     \textbf{Q2.1:} 
-    Calcolare la classifica dei 10 modelli di hard disk che hanno subito il maggior numero di fallimenti, riportando il modello di hard disk e il numero totale di fallimenti subiti dagli hard disk di quello specifico modello.\\ 
+    Calcolare la classifica dei 10 modelli di hard disk che hanno subito il maggior numero di fallimenti, riportando il modello di hard disk e il numero totale di fallimenti subiti dagli hard disk di quello specifico modello\\ 
     \vspace{0.2cm}
     \textbf{Q2.2:} 
     Calcolare la classifica dei 10 vault che hanno registrato il maggior numero di fallimenti riportando, per ogni vault, il numero di fallimenti e la lista (senza ripetizioni) dei modelli di hark disk soggetti ad almeno un fallimento.
