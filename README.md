@@ -23,7 +23,7 @@ To use the project you need the following things:
 1) Run command "docker compose --profile all up" or "make up" and wait the startup of all containers
 2) From browser access to Nifi web UI at https://localhost:8443/nifi and perform login with the credentials specified in docker-compose.yml
 3) Upload Nifi template file available at $PROJECT_DIR/Dockerfiles/nifi/templates/progetto_1.4.xml, to do so right mouse click on a blank space of Nifi UI and select "upload template" then drag and drop from the template icon in the UI to use it.
-3) Start all the Nifi controller services needed for the processors, to do so right mouse click on a blank space of Nifi UI and select "configure" then select the tab "controller services" and enable all services.
+3) Start all the Nifi controller services needed for the processors, to do so right mouse click on a blank space of Nifi UI and select "enable all controller services" then wait for the services to start.
 4) Start all Nifi processors if you want to ingest data in HDFS with both CSV and Parquet formats or only the processors in one of the two branches if you want only one format, to do so right mouse click on a processor and select "start"
 5) To verify that HDFS is up access the web UI at  http://localhost:9870
 6) To verify that Spark is up access the web UI at http://localhost:8080 and verify that all workers are connected
