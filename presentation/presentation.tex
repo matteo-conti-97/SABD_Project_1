@@ -137,6 +137,27 @@
 \end{frame}
 %---------------------------------------------------------
 \subsection{Data ingestion}
+%---------------------------------------------------------Slide 7
+\begin{frame}{Pipeline - Data ingestion}
+    Per la data ingestion è stato utilizzato il framework Apache NiFi, il quale si occupa di:
+    \begin{columns}
+        \column{0.5\textwidth}
+            \begin{minipage}[b]{1\textwidth}
+                \begin{itemize}
+                    \item Ricevere tramite HTTP il file CSV contenente i dati
+                    \item Filtrare i dati
+                    \item Memorizzare i dati su HDFS in formato Parquet e CSV
+                \end{itemize}
+            \end{minipage}
+        \column{0.5\textwidth}
+            \begin{minipage}{1\textwidth}
+                \begin{adjustbox}{margin=0cm 0cm 1.7cm 0cm, center} % left, bottom, right, top
+                    \includegraphics[width=1\textwidth]{res/nifi_flow.png}
+                \end{adjustbox}
+            \end{minipage}
+    \end{columns}
+\end{frame}
+%---------------------------------------------------------
 \subsection{Data storage}
 \subsection{Data processing}
 \subsection{Analytical data storage}
