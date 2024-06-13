@@ -192,6 +192,32 @@
 \end{frame}
 %----------------------------------------------------------
 
+%---------------------------------------------------------
+\begin{frame}{Data Processing}
+    Considerazioni:
+    \begin{itemize}
+        \item Ogni query è stata eseguita sia in Parquet che in CSV
+        \item Standardizzazione dell'esecuzione con show()
+        \item Utilizzo di DataFrame la composizione delle query
+    \end{itemize}
+    \vspace{1cm}
+    \begin{columns}
+        \column{0.5\textwidth}
+            \begin{minipage}{0.3\textwidth}
+                \begin{adjustbox}{margin=4cm 0cm 0cm 0cm, center}
+                    \includegraphics[width=1\textwidth]{res/csv.png}
+                \end{adjustbox}
+            \end{minipage}
+        \column{0.5\textwidth}
+        \begin{minipage}{0.5\textwidth}
+            \begin{adjustbox}{margin=0cm 0cm 0.8cm 0cm, center}
+                \includegraphics[width=1\textwidth]{res/parquet.png}
+            \end{adjustbox}
+        \end{minipage}
+    \end{columns}
+\end{frame}
+%----------------------------------------------------------
+
 %--------------------------------------------------------- Slide 10
 \begin{frame}{Data Processing-Query 1}
     \textbf{Q1:} calcolare per ogni giorno, per ogni vault, il numero totale di fallimenti, in particolare determinare la lista di vault che hanno subito esattamente 4, 3 e 2 fallimenti
