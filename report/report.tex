@@ -118,11 +118,6 @@ Il dataset, filtrato, è stato caricato dall'HDFS ed i risultati delle query son
 Le query sono state eseguite sia a partire dal file in formato CSV che dal file in formato Parquet per valutare le differenze prestazionali tra un formato basato su colonne e uno basato su righe.
 Per effettuare le query sono state utilizzate le API per i Dataframe e non quelle per gli RDD. 
 Inoltre dato che le query sono formate principalmente da trasformazioni, l'azione che scatenerebbe la lazy evaluation, e quindi l'effettiva esecuzione della query, sarebbe la scrittura del risultato su MongoDB; tuttavia la durata della scrittura dipende dalla grandezza del risultato della query, il quale è abbastanza eterogeneo, abbiamo quindi deciso di unificare la metodologia di acquisizione delle misure di prestazioni inserendo un'azione di show() prima della scrittura su MongoDB.
-Il processamento è stato fatto 
-
-
-
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{./res/spark_cluster.png}
