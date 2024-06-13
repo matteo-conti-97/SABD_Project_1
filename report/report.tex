@@ -113,7 +113,7 @@ Per memorizzare i dati a a seguito del preprocessamento effettuato da parte di N
 \end{itemize}
 Non è stata utilizzata una struttura particolare per l'organizzazione dei file all'interno dell'HDFS, essi sono stati memorizzati tutti nella root directory.
 \subsection{Data Processing}
-Per il processamento dei dati, e quindi l'esecuzione delle query, è stato utilizzato il framework Apache Spark, in particolare utilizzando la libreria PySpark. È stato utilizzato un cluster composto da uno spark master e quattro spark worker (Fig. \ref{fig:spark_cluster}). Per implementare il cluster è stata utilizzata l'immagine bitami/spark nella versione 3.5.1.
+Per il processamento dei dati, e quindi l'esecuzione delle query, è stato utilizzato il framework Apache Spark, in particolare utilizzando la libreria PySpark. È stato utilizzato un cluster composto da uno spark master e quattro spark worker (Fig. \ref{fig:spark_cluster}) utilizzando la configurazione di default, cioè ogni worker ospita un solo executor. Per implementare il cluster è stata utilizzata l'immagine bitami/spark nella versione 3.5.1.
 Il dataset, filtrato, è stato caricato dall'HDFS ed i risultati delle query sono stati salvati in MongoDB utilizzando il connettore spark-mongodb.
 Le query sono state eseguite sia a partire dal file in formato CSV che dal file in formato Parquet per valutare le differenze prestazionali tra un formato basato su colonne e uno basato su righe.
 Per effettuare le query sono state utilizzate le API per i Dataframe e non quelle per gli RDD. 
@@ -198,15 +198,19 @@ Risorse Docker
     Memory: 8 GiB of RAM
 \end{minted}
 \subsubsection{Risultati}
-L'analisi delle prestazioni è stata effettuata per ciascuna query, in particolare sono stati valutati i tempi di esecuzione delle query sui due formati di file, CSV e Parquet, e sono stati confrontati i risultati ottenuti.
-Come detto in precedenza ci si aspetta che il formato Parquet sia più efficiente rispetto al formato CSV, in quanto essendo un formato basato su colonne, dovrebbe avere un vantaggio per le query di aggregazione.
-Tuttavia questo vantaggio sembra esserci solo per la query 1 e 3. Infatti nella query 2 i tempi di esecuzione sono minori utilizzando il formato CSV (Fig. \ref{fig:performance_panel}).
-Questo comportamento potrebbe essere dovuto al fatto che nella query 2 viene eseguita una operazione di join tra due dataframe (Fig. \ref{fig:dag_query2}), e quindi il formato Parquet, che è basato su colonne, potrebbe essere meno efficiente rispetto al formato CSV, che è basato su righe, per questa operazione.
+L'analisi delle prestazioni è stata effettuata per ciascuna query, in particolare sono stati valutati i tempi di esecuzione delle query sui due formati di file, CSV e Parquet, e sono stati confrontati i risultati ottenuti. I tempi, misurati in secondi, sono stati presi dall'istruzione successiva alla creazione della SparkSession fino all'azione di show() che precede la scrittura su MongoDB.
+Come atteso il formato Parquet è risultato essere più efficace rispetto al formato CSV, ottenendo delle performance migliori in tutte le query (Fig. \ref{fig:performance_panel}). Questo è un risultato atteso in quanto dato Parquet un formato basato su colonne ha un vantaggio per le query che effettuano principalmente aggregazione su colonne, come nel nostro caso. Inoltre la misurazione precedente tiene conto anche della lettura del file, tuttavia i tempi di lettura sono molto diversi (Fig. \ref{fig:read_performance}), in particolare il formato Parquet impiega più tempo del formato CSV, questo è dovuto principalmente al fatto che essendo il dataset relativamente piccolo e quindi l'overhead derivante dal fatto che Parquet è un formato compresso risulta essere più marcato. 
+Questo implica che i vantaggi puramente computazionali apportati dal formato Parquet risultano essere maggiori rispetto a quanto risulta apprezabile in questo caso specifico.
 
 \begin{figure}[H]
     \centerline{\includegraphics[width=0.5\textwidth]{res/performance_panel.png}}
     \caption{Pannello delle performance di Grafana.}
     \label{fig:performance_panel}
+\end{figure}
+\begin{figure}[H]
+    \centerline{\includegraphics[width=0.5\textwidth]{res/read_performance.png}}
+    \caption{Pannello delle performance in lettura di Grafana.}
+    \label{fig:read_performance}
 \end{figure}
 
 \section{Riferimenti}
